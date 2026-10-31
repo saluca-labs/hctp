@@ -1,0 +1,26 @@
+{
+ "version": 3,
+ "written": "2026-10-31",
+ "rule": "debt may only shrink; see repo-merge-gate.md GATE-3",
+ "note": "ids are hashes of each finding; run `python -m gate run` to see them",
+ "checks": [
+  "bandit",
+  "branch-protection",
+  "ci-hygiene",
+  "claims",
+  "consistency",
+  "control-chars",
+  "deps",
+  "docs",
+  "licence",
+  "log-redaction",
+  "mutation",
+  "packaging",
+  "paths",
+  "security",
+  "semgrep",
+  "style",
+  "test-markers"
+ ],
+ "entries": []
+}
