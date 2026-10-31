@@ -1,0 +1,22 @@
+# hctp
+
+> The Hash-Chain Context Transfer Protocol (HCTP) Internet-Draft, draft-ruvalcaba-hctp-00, with test vectors computed from its text and the scripts that generate and check them. Code and vectors are Apache-2.0; HCTP is royalty-free to implement under IETF IPR disclosure 7533.
+
+This is a specification and test-vector repository, not a library: the Python reference implementation lives in saluca-labs/velamen. The generator uses only the Python standard library and imports no HCTP code. The -00 text does not fix how non-ASCII characters are escaped in canonical JSON, so the non-ASCII vector is given under both readings.
+
+## Docs
+
+- [README](https://github.com/saluca-labs/hctp/blob/main/README.md): what HCTP is, install, quickstart, how to test an implementation
+- [draft-ruvalcaba-hctp-00 on the datatracker](https://datatracker.ietf.org/doc/html/draft-ruvalcaba-hctp-00): the specification, as published
+
+## Code
+
+- [test-vectors/gen_vectors.py](https://github.com/saluca-labs/hctp/blob/main/test-vectors/gen_vectors.py): computes the vectors from sections 3.1 and 4 of the draft; `--check` compares the reference implementation
+- [test-vectors/vectors-00.json](https://raw.githubusercontent.com/saluca-labs/hctp/main/test-vectors/vectors-00.json): genesis root, block inputs, canonical encodings and rolling roots
+
+## Optional
+
+- [draft-ruvalcaba-hctp-00.xml](https://github.com/saluca-labs/hctp/blob/main/draft-ruvalcaba-hctp-00.xml): the xml2rfc source
+- [tools/render_draft.py](https://github.com/saluca-labs/hctp/blob/main/tools/render_draft.py): renders the XML to text
+- [IETF datatracker](https://datatracker.ietf.org/doc/draft-ruvalcaba-hctp/): the draft's official record
+- [IPR disclosure 7533](https://datatracker.ietf.org/ipr/7533/): the royalty-free licensing commitment

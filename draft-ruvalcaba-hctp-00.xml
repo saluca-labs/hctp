@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
+<!DOCTYPE rfc [
+]>
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude"
+     category="std"
+     docName="draft-ruvalcaba-hctp-00"
+     ipr="trust200902"
+     submissionType="IETF"
+     consensus="true"
+     obsoletes=""
+     updates=""
+     xml:lang="en"
+     tocInclude="true"
+     tocDepth="3"
+     symRefs="true"
+     sortRefs="true"
+     version="3">
+
+  <front>
+    <title abbrev="HCTP">The Hash-Chain Context Transfer Protocol (HCTP)</title>
+    <seriesInfo name="Internet-Draft" value="draft-ruvalcaba-hctp-00"/>
+
+    <author fullname="Cristian Xavier Ruvalcaba" initials="C.X." surname="Ruvalcaba">
+      <organization>Saluca LLC</organization>
+      <address>
+        <email>cristian@saluca.com</email>
+      </address>
+    </author>
+
+    <date year="2026" month="August" day="11"/>
+
+    <area>Applications and Real-Time</area>
+    <workgroup>Individual Submission</workgroup>
+
+    <keyword>context</keyword>
+    <keyword>hash chain</keyword>
+    <keyword>synchronization</keyword>
+    <keyword>large language model</keyword>
+    <keyword>agent</keyword>
+    <keyword>delta transfer</keyword>
+
+    <abstract>
+      <t>The Hash-Chain Context Transfer Protocol (HCTP) is a payload format and
+      synchronization protocol for incrementally transferring an ordered,
+      append-only sequence of conversational context between two endpoints over a
+      bandwidth-constrained channel. Acknowledged history is represented by a
+      single fixed-size rolling hash commitment (the "static root"); only
+      not-yet-acknowledged context blocks (the "dynamic window") are transmitted.
+      As a result, the per-message wire overhead attributable to history is
+      constant and independent of the total number of previously acknowledged
+      turns. HCTP is transport-agnostic and carries no confidentiality or peer
+      authentication of its own; it is intended to run over a secure transport.
+      This document specifies the HCTP data model, wire format, rolling-root
+      computation, and synchronization state machine.</t>
+    </abstract>
+  </front>
+
+  <middle>
+
+    <section anchor="introduction" numbered="true">
+      <name>Introduction</name>
+      <t>Conversational and agentic systems increasingly need to share an
+      evolving record of interaction ("context") between components: between a
+      client and a service, between cooperating agents, or between a live process
+      and a resumable checkpoint. The naive approach retransmits the entire
+      conversation on every exchange, so the wire cost grows without bound as the
+      conversation lengthens. This is wasteful on any channel and prohibitive on a
+      constrained one.</t>
+
+      <t>HCTP addresses this by partitioning the context into two parts:</t>
+      <ul>
+        <li>a <strong>static section</strong> of blocks both endpoints have
+        acknowledged, represented on the wire by a single 32-octet rolling hash
+        (the static root); and</li>
+        <li>a <strong>dynamic window</strong> of pending blocks that have not yet
+        been acknowledged, which is the only part transmitted.</li>
+      </ul>
+
+      <t>Each context block commits to the raw text of one turn via a content
+      hash and additionally carries a short semantic summary, so that an endpoint
+      may operate on the summary as context without ever receiving the raw text,
+      while retaining the ability to verify the block against the raw text if it
+      later obtains it (<xref target="verifiable-summary"/>).</t>
+
+      <t>HCTP provides ordering and tamper-evidence through a hash chain. It does
+      <strong>not</strong> provide confidentiality, peer authentication, or
+      non-repudiation, and its integrity guarantees are meaningful only when it is
+      carried over a transport that authenticates the peer and protects the
+      payload (<xref target="security"/>). HCTP is deliberately independent of any
+      particular transport: it defines the payload octets, and any datagram or
+      stream transport MAY carry them.</t>
+
+      <section anchor="scope" numbered="true">
+        <name>Scope and Non-Goals</name>
+        <t>This document specifies only the transport-agnostic core: the block
+        format, the rolling-root commitment, the SYNC/ACK exchange, and the rules
+        for advancing the chain. Mechanisms for peer authentication, key
+        establishment, message confidentiality, and the specific method by which
+        a summary is produced are out of scope and are expected to be supplied by
+        the surrounding system.</t>
+      </section>
+    </section>
+
+    <section anchor="terminology" numbered="true">
+      <name>Conventions and Terminology</name>
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in BCP 14
+      <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when, they
+      appear in all capitals, as shown here.</t>
+
+      <dl>
+        <dt>Context block:</dt>
+        <dd>The unit of context corresponding to one conversational turn
+        (<xref target="context-block"/>).</dd>
+        <dt>Static root:</dt>
+        <dd>A 32-octet rolling hash committing to the ordered sequence of
+        acknowledged context blocks.</dd>
+        <dt>Dynamic window:</dt>
+        <dd>The ordered set of pending context blocks not yet acknowledged by the
+        peer.</dd>
+        <dt>SYNC:</dt>
+        <dd>A packet sent to convey the dynamic window and the current static
+        root.</dd>
+        <dt>ACK:</dt>
+        <dd>A packet sent to acknowledge a SYNC and report the acknowledged
+        static root.</dd>
+        <dt>Fold:</dt>
+        <dd>The operation that advances the static root by incorporating one
+        context block (<xref target="rolling-root"/>).</dd>
+        <dt>Sender / Receiver:</dt>
+        <dd>Roles with respect to a single SYNC exchange. An endpoint MAY act in
+        both roles; see <xref target="bidirectional"/>.</dd>
+      </dl>
+
+      <t>All multi-octet integers in this document are unsigned and encoded in
+      network byte order (big-endian). Octet strings written as hexadecimal are
+      shown for illustration only; on the wire they are raw octets.</t>
+    </section>
+
+    <section anchor="data-model" numbered="true">
+      <name>Data Model</name>
+
+      <section anchor="context-block" numbered="true">
+        <name>Context Block</name>
+        <t>A context block is a logical record with the following fields:</t>
+        <dl>
+          <dt>seq:</dt>
+          <dd>An unsigned 32-bit sequence number, monotonically increasing from 0
+          within a session, identifying the block's position in the ordered
+          context.</dd>
+          <dt>role:</dt>
+          <dd>A short UTF-8 label identifying the originator of the turn (for
+          example "user" or "agent"). Its interpretation is application-defined.</dd>
+          <dt>content_hash:</dt>
+          <dd>The lowercase hexadecimal SHA-256 <xref target="RFC6234"/> digest of
+          the UTF-8 encoding of the raw turn text.</dd>
+          <dt>summary:</dt>
+          <dd>A UTF-8 semantic summary of the turn, of at most MAX_SUMMARY_LEN
+          (<xref target="constants"/>) Unicode code points.</dd>
+        </dl>
+
+        <t>For hashing and for on-the-wire serialization, a context block MUST be
+        encoded as canonical JSON: a JSON object containing exactly the members
+        "content_hash", "role", "seq", and "summary", with member names sorted in
+        ascending lexicographic (Unicode code point) order, no insignificant
+        whitespace, and no member separators other than a single "," and ":". The
+        canonical encoding of a block B is denoted canonical(B).</t>
+      </section>
+
+      <section anchor="sections" numbered="true">
+        <name>Static and Dynamic Sections</name>
+        <t>Each endpoint maintains, per session:</t>
+        <ul>
+          <li>a static root: a 32-octet value initialized to the genesis root
+          (<xref target="rolling-root"/>) and advanced only as blocks are
+          acknowledged; and</li>
+          <li>a dynamic window: an ordered list of pending context blocks.</li>
+        </ul>
+        <t>Acknowledged blocks are never retransmitted; they are represented
+        solely by the static root, whose size is constant and independent of the
+        number of blocks it commits to.</t>
+      </section>
+    </section>
+
+    <section anchor="rolling-root" numbered="true">
+      <name>Rolling-Root Computation</name>
+      <t>The static root is a SHA-256 hash chain over acknowledged blocks. Let
+      "||" denote octet-string concatenation and SHA256(x) denote the 32-octet
+      SHA-256 digest of x.</t>
+
+      <t>The genesis root is defined as:</t>
+      <artwork type="ascii-art"><![CDATA[
+  root_0 = SHA256(GENESIS_SEED)
+]]></artwork>
+      <t>where GENESIS_SEED is the ASCII octet string "hctp-genesis-v1" (15
+      octets, no trailing NUL).</t>
+
+      <t>Given a current root R and a block B, folding B advances the root:</t>
+      <artwork type="ascii-art"><![CDATA[
+  fold(R, B) = SHA256( R || SHA256(canonical(B)) )
+]]></artwork>
+      <t>The static root after acknowledging blocks B_1, ..., B_n (in order) is
+      therefore:</t>
+      <artwork type="ascii-art"><![CDATA[
+  root_n = fold( fold( ... fold(root_0, B_1) ..., B_{n-1}), B_n )
+]]></artwork>
+
+      <t>Because each root embeds every prior acknowledged root, any modification,
+      reordering, insertion, or deletion of acknowledged history produces a
+      different static root, and the mismatch is detected at the next SYNC
+      (<xref target="ingest"/>).</t>
+    </section>
+
+    <section anchor="wire-format" numbered="true">
+      <name>Wire Format</name>
+      <t>HCTP defines two packet types, SYNC and ACK. Every packet begins with a
+      1-octet version and a 1-octet packet type. The version specified by this
+      document is 0x01.</t>
+
+      <section anchor="sync-packet" numbered="true">
+        <name>SYNC Packet</name>
+        <artwork type="ascii-art"><![CDATA[
+  0        1        2        3        4        5        6
+  +--------+--------+--------------------------+
+  |version | ptype  |          seq             |
+  | 0x01   | 0x53   |     (uint32, 4 octets)   |
+  +--------+--------+--------------------------+
+  |                 static_root                |
+  |                 (32 octets)                |
+  +--------------------------------------------+
+  |               dynamic_len                  |
+  |            (uint32, 4 octets)              |
+  +--------------------------------------------+
+  |         dynamic_data (dynamic_len octets)  |
+  |                    ...                     |
+  +--------------------------------------------+
+  |               combined_hash                |
+  |                (32 octets)                 |
+  +--------------------------------------------+
+]]></artwork>
+        <dl>
+          <dt>version (1 octet):</dt>
+          <dd>MUST be 0x01. A receiver MUST reject a packet with an unknown
+          version.</dd>
+          <dt>ptype (1 octet):</dt>
+          <dd>MUST be 0x53 (ASCII 'S') for SYNC.</dd>
+          <dt>seq (4 octets):</dt>
+          <dd>The sequence number of the last block in the dynamic window carried
+          by this SYNC.</dd>
+          <dt>static_root (32 octets):</dt>
+          <dd>The sender's current static root, i.e., the root over all blocks the
+          sender has acknowledged prior to this SYNC.</dd>
+          <dt>dynamic_len (4 octets):</dt>
+          <dd>The length in octets of dynamic_data.</dd>
+          <dt>dynamic_data (dynamic_len octets):</dt>
+          <dd>A zlib <xref target="RFC1950"/> compressed stream whose
+          uncompressed content is the canonical JSON array
+          [canonical(B_i), ...] of the pending context blocks, in ascending seq
+          order. The array MUST be encoded as canonical JSON (sorted member
+          names, no insignificant whitespace).</dd>
+          <dt>combined_hash (32 octets):</dt>
+          <dd>SHA256(static_root || dynamic_data), computed over the static_root
+          field and the compressed dynamic_data octets exactly as they appear on
+          the wire.</dd>
+        </dl>
+        <t>The fixed overhead of a SYNC packet is 74 octets (1 + 1 + 4 + 32 + 4 +
+        32), independent of the acknowledged-history depth. The total size is 74
+        octets plus dynamic_len.</t>
+      </section>
+
+      <section anchor="ack-packet" numbered="true">
+        <name>ACK Packet</name>
+        <artwork type="ascii-art"><![CDATA[
+  0        1        2        3        4        5        6
+  +--------+--------+--------------------------+
+  |version | ptype  |          seq             |
+  | 0x01   | 0x41   |     (uint32, 4 octets)   |
+  +--------+--------+--------------------------+
+  |                  new_root                  |
+  |                 (32 octets)                |
+  +--------------------------------------------+
+]]></artwork>
+        <dl>
+          <dt>version (1 octet):</dt>
+          <dd>MUST be 0x01.</dd>
+          <dt>ptype (1 octet):</dt>
+          <dd>MUST be 0x41 (ASCII 'A') for ACK.</dd>
+          <dt>seq (4 octets):</dt>
+          <dd>The seq of the SYNC being acknowledged, echoed unchanged.</dd>
+          <dt>new_root (32 octets):</dt>
+          <dd>The receiver's static root after folding in the acknowledged blocks
+          (<xref target="ingest"/>).</dd>
+        </dl>
+        <t>An ACK packet is exactly 38 octets.</t>
+      </section>
+    </section>
+
+    <section anchor="protocol-operation" numbered="true">
+      <name>Protocol Operation</name>
+
+      <section anchor="per-role-state" numbered="true">
+        <name>Per-Role State</name>
+        <t>The SYNC/ACK exchange is asymmetric, and sender state MUST NOT be
+        conflated with receiver state. For a given directional chain
+        (<xref target="bidirectional"/>) an endpoint maintains:</t>
+        <t>Receiver state:</t>
+        <ul>
+          <li>local_root: the current static root;</li>
+          <li>last_seen_seq: the seq of the most recently accepted SYNC;</li>
+          <li>has_seen: a boolean, initially false, set true when the first SYNC
+          is accepted;</li>
+          <li>ack_cache: the most recently sent ACK together with the pre-fold
+          root over which it was computed.</li>
+        </ul>
+        <t>Sender state:</t>
+        <ul>
+          <li>static_root: the current static root;</li>
+          <li>dynamic: the ordered list of pending blocks;</li>
+          <li>next_seq: the seq to assign to the next added block;</li>
+          <li>pending_seq: the seq of the outstanding, unacknowledged SYNC, if
+          any;</li>
+          <li>last_acked_seq: the seq of the most recently acknowledged SYNC;</li>
+          <li>a retransmit timer and a bounded retransmit counter.</li>
+        </ul>
+      </section>
+
+      <section anchor="sending" numbered="true">
+        <name>Sending a SYNC</name>
+        <t>To transmit pending context, the sender:</t>
+        <ol>
+          <li>computes dynamic_data by canonical-JSON-encoding and zlib-
+          compressing the pending blocks in ascending seq order;</li>
+          <li>sets combined_hash = SHA256(static_root || dynamic_data);</li>
+          <li>sets seq to the seq of the last pending block and records it as
+          pending_seq;</li>
+          <li>emits the SYNC packet and starts the retransmit timer.</li>
+        </ol>
+        <t>The sender MUST NOT advance its static_root at send time; the root is
+        advanced only upon receiving a valid ACK (<xref target="on-ack"/>).</t>
+      </section>
+
+      <section anchor="ingest" numbered="true">
+        <name>Receiving a SYNC</name>
+        <t>On receiving a SYNC packet P, the receiver applies the following checks
+        in order:</t>
+        <ol>
+          <li><strong>Replay.</strong> If has_seen is true and
+          P.seq &lt; last_seen_seq, the SYNC is a replay of already-superseded
+          state and MUST be silently discarded. (Note the strict "&lt;":
+          P.seq == last_seen_seq is handled by the idempotent-retransmit rule
+          below, not discarded here.)</li>
+          <li><strong>Idempotent retransmit.</strong> If has_seen is true,
+          P.seq == last_seen_seq, and P.static_root equals the pre-fold root
+          recorded in ack_cache, the SYNC is a retransmission of an
+          already-processed SYNC whose ACK was lost. The receiver MUST resend the
+          cached ACK and MUST NOT fold again.</li>
+          <li><strong>Integrity.</strong> The receiver MUST recompute
+          SHA256(P.static_root || P.dynamic_data) and reject the packet if it does
+          not equal P.combined_hash.</li>
+          <li><strong>Alignment.</strong> The receiver MUST reject the packet if
+          P.static_root does not equal its local_root. A mismatch indicates the
+          two endpoints disagree on acknowledged history and requires
+          re-establishment (<xref target="errors"/>).</li>
+          <li><strong>Ingest.</strong> The receiver decompresses P.dynamic_data,
+          bounding the decompressed size (<xref target="security"/>), parses the
+          canonical JSON block array, and accepts the blocks as the new pending
+          context.</li>
+        </ol>
+        <t>On acceptance the receiver records pre_fold_root = local_root, folds
+        each accepted block into local_root in order (<xref target="rolling-root"/>),
+        sets last_seen_seq = P.seq and has_seen = true, constructs an ACK with
+        new_root = local_root, records (pre_fold_root, ACK) in ack_cache, and
+        sends the ACK.</t>
+      </section>
+
+      <section anchor="on-ack" numbered="true">
+        <name>Receiving an ACK</name>
+        <t>On receiving an ACK packet A, the sender:</t>
+        <ol>
+          <li>ignores A if A.seq != pending_seq (a stale or duplicate ACK), or if
+          A.seq &lt;= last_acked_seq;</li>
+          <li>otherwise folds each pending block into static_root in order,
+          producing the sender's updated root;</li>
+          <li>MUST reject the ACK if A.new_root does not equal the sender's
+          updated root, indicating divergence (<xref target="errors"/>);</li>
+          <li>on success clears the dynamic window, sets
+          last_acked_seq = A.seq, clears pending_seq, and cancels the retransmit
+          timer.</li>
+        </ol>
+      </section>
+
+      <section anchor="retransmission" numbered="true">
+        <name>Retransmission and Loss</name>
+        <t>If the retransmit timer expires before an ACK is received, the sender
+        MUST retransmit the SYNC bearing the <strong>unchanged</strong> seq and
+        the <strong>unchanged</strong> pre-fold static_root, up to a bounded
+        retransmit count. A single lost ACK MUST NOT cause session
+        re-establishment or re-keying: the idempotent-retransmit rule
+        (<xref target="ingest"/>) ensures a retransmitted SYNC re-elicits the same
+        ACK without double-folding. Only after the bounded retransmit count is
+        exhausted without acknowledgment does the sender signal transport
+        failure.</t>
+      </section>
+
+      <section anchor="errors" numbered="true">
+        <name>Error Handling and Re-establishment</name>
+        <t>A static-root mismatch (either endpoint) means the endpoints no longer
+        share acknowledged history and cannot be reconciled within HCTP.
+        Implementations MUST treat this as a fatal session error and re-establish
+        a new session from genesis. HCTP does not define reconciliation of
+        divergent chains; such divergence indicates loss, reordering that escaped
+        detection at a lower layer, or tampering.</t>
+        <t>The seq field is a 32-bit unsigned integer. An endpoint MUST NOT allow
+        seq to wrap; upon approaching 2^32 blocks in a session, both endpoints
+        MUST re-key by starting a new session with a fresh genesis root. Sessions
+        exceeding 2^32 blocks are not supported.</t>
+      </section>
+    </section>
+
+    <section anchor="bidirectional" numbered="true">
+      <name>Bidirectional Synchronization</name>
+      <t>When both endpoints originate context concurrently, a single shared
+      static root can diverge, because each endpoint would fold blocks in an order
+      the other cannot reproduce. HCTP resolves this with per-direction chains: an
+      endpoint pair maintains two independent rolling-root chains, one advanced
+      solely by folding blocks originated by the first endpoint and acknowledged
+      by the second, and the other advanced solely by folding blocks originated by
+      the second endpoint and acknowledged by the first. A SYNC is associated with
+      a direction, determined either from the role indicator or from the channel
+      on which it is received. Because opposite-direction SYNCs fold into disjoint
+      chains, they cannot diverge.</t>
+      <t>Alternatively, endpoints MAY serialize all folds onto a single shared
+      chain using a single-writer turn-token: an endpoint transmits a SYNC only
+      while holding the turn-token, and the token is conveyed to the peer upon
+      transmission of an ACK. This yields a single agreed fold order at the cost of
+      strictly alternating turns. An implementation MUST use exactly one of these
+      two strategies for a given session and MUST NOT mix them.</t>
+    </section>
+
+    <section anchor="verifiable-summary" numbered="true">
+      <name>Verifiable Summaries (Optional)</name>
+      <t>An endpoint that lacks the raw turn text MAY operate using the block's
+      summary as its working context. If the endpoint later obtains the raw text,
+      it can verify the block by recomputing content_hash from the raw text and
+      comparing it to the block's content_hash field.</t>
+      <t>Implementations MAY additionally make the summary itself reproducible and
+      thus verifiable, rather than merely asserted, by computing it with a fixed,
+      pre-agreed deterministic summarization function -- for example a summarizer
+      identified by name and version, applied with a fixed prompt or template and a
+      deterministic decoding configuration -- such that any party holding the raw
+      text and the agreed configuration recomputes the identical summary. This
+      document does not mandate any particular summarization function; when
+      determinism across heterogeneous implementations cannot be guaranteed, an
+      endpoint MAY instead verify a summary under a pre-agreed equivalence
+      predicate (for example a canonicalization or a distance threshold). Absent
+      such a mechanism, the summary MUST be treated as unverified assertion.</t>
+    </section>
+
+    <section anchor="constants" numbered="true">
+      <name>Protocol Constants</name>
+      <dl>
+        <dt>PROTO_VERSION:</dt><dd>0x01</dd>
+        <dt>PTYPE_SYNC:</dt><dd>0x53</dd>
+        <dt>PTYPE_ACK:</dt><dd>0x41</dd>
+        <dt>GENESIS_SEED:</dt><dd>the ASCII octets "hctp-genesis-v1"</dd>
+        <dt>MAX_SUMMARY_LEN:</dt><dd>120 (Unicode code points)</dd>
+        <dt>Hash function:</dt><dd>SHA-256 <xref target="RFC6234"/></dd>
+        <dt>Compression:</dt><dd>zlib <xref target="RFC1950"/> / DEFLATE
+        <xref target="RFC1951"/></dd>
+      </dl>
+    </section>
+
+    <section anchor="transport" numbered="true">
+      <name>Transport Considerations</name>
+      <t>HCTP is transport-agnostic; it defines only the octets of SYNC and ACK
+      packets. A SYNC or ACK is a self-delimiting unit (its length is fully
+      determined by its fixed fields plus dynamic_len) and MAY be carried as a
+      single datagram, a length-framed record on a stream, a WebSocket
+      <xref target="RFC6455"/> binary message, or the body of an HTTP request or
+      response. HCTP performs no fragmentation of its own: if a dynamic payload
+      exceeds the underlying channel's usable size, the sending application MUST
+      split the pending blocks across multiple SYNC packets, each bearing the same
+      static_root and an increasing seq, and reassemble on the receiver.</t>
+      <t>Because HCTP supplies no confidentiality or peer authentication, it MUST
+      be carried over a transport that provides them where those properties are
+      required (<xref target="security"/>).</t>
+    </section>
+
+    <section anchor="security" numbered="true">
+      <name>Security Considerations</name>
+      <t><strong>HCTP is not a secure channel by itself.</strong> The static root,
+      combined_hash, and content_hash are computed with an unkeyed hash function.
+      They provide tamper-evidence against accidental corruption and against a
+      party that cannot forge packets, but they provide <strong>no</strong>
+      cryptographic authentication: an active attacker who can inject packets can
+      recompute a consistent combined_hash and a consistent chain for any payload
+      of the attacker's choosing. Authenticity, integrity against active
+      attackers, and confidentiality MUST be provided by the underlying transport
+      (for example TLS 1.3 <xref target="RFC8446"/> or QUIC
+      <xref target="RFC9000"/>) or by an authenticated-encryption layer that wraps
+      the HCTP packet. Absent such a layer, HCTP's integrity guarantees are
+      meaningless.</t>
+      <t><strong>No non-repudiation.</strong> Either endpoint can construct a
+      valid-looking chain from genesis; the chain proves internal consistency, not
+      origin. Binding context to a long-term identity requires signatures and is
+      out of scope.</t>
+      <t><strong>Replay.</strong> Within a session, the seq field and the strict
+      ordering check reject replays of superseded SYNCs, and the static-root
+      alignment check rejects out-of-context injection. Cross-session replay is
+      prevented by starting each session from a fresh genesis and never reusing
+      session state; endpoints SHOULD bind the session to transport-layer
+      freshness (for example a fresh TLS session) to prevent whole-session replay.</t>
+      <t><strong>Decompression resource exhaustion.</strong> dynamic_data is
+      attacker-influenced compressed input. A receiver MUST bound the maximum
+      accepted decompressed size and the maximum number of blocks per SYNC, and
+      MUST abort decompression that exceeds those bounds, to avoid a decompression
+      "bomb" denial of service. dynamic_len itself MUST be bounded before
+      allocation.</t>
+      <t><strong>Confidentiality of summaries.</strong> A block's summary may
+      reveal the semantic content of a turn even though the raw text is not sent.
+      Where the summary is sensitive, the transport MUST encrypt the packet. The
+      content_hash likewise permits confirmation of a guessed plaintext; where raw
+      texts are low-entropy or guessable, this MUST be considered.</t>
+      <t><strong>Hash agility.</strong> This version fixes SHA-256 and a fixed
+      genesis seed. Collision resistance of the chain rests entirely on SHA-256. A
+      future version of the protocol (indicated by the version octet) may specify
+      an alternative hash; endpoints MUST reject versions they do not implement.</t>
+    </section>
+
+    <section anchor="iana" numbered="true">
+      <name>IANA Considerations</name>
+
+      <section anchor="iana-ptype" numbered="true">
+        <name>HCTP Packet Type Registry</name>
+        <t>IANA is requested to create a new registry, "HCTP Packet Types", with a
+        1-octet unsigned integer identifier space, under a to-be-assigned
+        HCTP-protocol registry group. The registration policy is "Specification
+        Required" <xref target="RFC8126"/>. The initial contents are:</t>
+        <table>
+          <thead>
+            <tr><th>Value</th><th>Name</th><th>Reference</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0x41</td><td>ACK</td><td>This document</td></tr>
+            <tr><td>0x53</td><td>SYNC</td><td>This document</td></tr>
+            <tr><td>0x00, 0x02-0x40, 0x42-0x52, 0x54-0xFF</td><td>Unassigned</td><td></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section anchor="iana-version" numbered="true">
+        <name>HCTP Version Registry</name>
+        <t>IANA is requested to create a registry "HCTP Versions" with a 1-octet
+        identifier space, registration policy "Specification Required", initially
+        containing value 0x01 ("HCTP/1", this document).</t>
+      </section>
+
+      <section anchor="iana-media-type" numbered="true">
+        <name>Media Type Registration</name>
+        <t>IANA is requested to register the "application/hctp" media type for
+        HCTP packets carried over media-type-aware transports, per the procedures
+        of <xref target="RFC6838"/>. Type name: application; Subtype name: hctp;
+        Required parameters: none; Optional parameters: none; Encoding
+        considerations: binary; Security considerations: see
+        <xref target="security"/> of this document.</t>
+      </section>
+    </section>
+
+  </middle>
+
+  <back>
+    <references>
+      <name>Normative References</name>
+      <reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119">
+        <front>
+          <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+          <author initials="S." surname="Bradner" fullname="S. Bradner"/>
+          <date year="1997" month="March"/>
+        </front>
+        <seriesInfo name="BCP" value="14"/>
+        <seriesInfo name="RFC" value="2119"/>
+      </reference>
+      <reference anchor="RFC8174" target="https://www.rfc-editor.org/info/rfc8174">
+        <front>
+          <title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
+          <author initials="B." surname="Leiba" fullname="B. Leiba"/>
+          <date year="2017" month="May"/>
+        </front>
+        <seriesInfo name="BCP" value="14"/>
+        <seriesInfo name="RFC" value="8174"/>
+      </reference>
+      <reference anchor="RFC6234" target="https://www.rfc-editor.org/info/rfc6234">
+        <front>
+          <title>US Secure Hash Algorithms (SHA and SHA-based HMAC and HKDF)</title>
+          <author initials="D." surname="Eastlake 3rd" fullname="D. Eastlake 3rd"/>
+          <author initials="T." surname="Hansen" fullname="T. Hansen"/>
+          <date year="2011" month="May"/>
+        </front>
+        <seriesInfo name="RFC" value="6234"/>
+      </reference>
+      <reference anchor="RFC1950" target="https://www.rfc-editor.org/info/rfc1950">
+        <front>
+          <title>ZLIB Compressed Data Format Specification version 3.3</title>
+          <author initials="P." surname="Deutsch" fullname="P. Deutsch"/>
+          <author initials="J-L." surname="Gailly" fullname="J-L. Gailly"/>
+          <date year="1996" month="May"/>
+        </front>
+        <seriesInfo name="RFC" value="1950"/>
+      </reference>
+      <reference anchor="RFC1951" target="https://www.rfc-editor.org/info/rfc1951">
+        <front>
+          <title>DEFLATE Compressed Data Format Specification version 1.3</title>
+          <author initials="P." surname="Deutsch" fullname="P. Deutsch"/>
+          <date year="1996" month="May"/>
+        </front>
+        <seriesInfo name="RFC" value="1951"/>
+      </reference>
+      <reference anchor="RFC8126" target="https://www.rfc-editor.org/info/rfc8126">
+        <front>
+          <title>Guidelines for Writing an IANA Considerations Section in RFCs</title>
+          <author initials="M." surname="Cotton" fullname="M. Cotton"/>
+          <author initials="B." surname="Leiba" fullname="B. Leiba"/>
+          <author initials="T." surname="Narten" fullname="T. Narten"/>
+          <date year="2017" month="June"/>
+        </front>
+        <seriesInfo name="BCP" value="26"/>
+        <seriesInfo name="RFC" value="8126"/>
+      </reference>
+      <reference anchor="RFC6838" target="https://www.rfc-editor.org/info/rfc6838">
+        <front>
+          <title>Media Type Specifications and Registration Procedures</title>
+          <author initials="N." surname="Freed" fullname="N. Freed"/>
+          <author initials="J." surname="Klensin" fullname="J. Klensin"/>
+          <author initials="T." surname="Hansen" fullname="T. Hansen"/>
+          <date year="2013" month="January"/>
+        </front>
+        <seriesInfo name="BCP" value="13"/>
+        <seriesInfo name="RFC" value="6838"/>
+      </reference>
+    </references>
+
+    <references>
+      <name>Informative References</name>
+      <reference anchor="RFC8446" target="https://www.rfc-editor.org/info/rfc8446">
+        <front>
+          <title>The Transport Layer Security (TLS) Protocol Version 1.3</title>
+          <author initials="E." surname="Rescorla" fullname="E. Rescorla"/>
+          <date year="2018" month="August"/>
+        </front>
+        <seriesInfo name="RFC" value="8446"/>
+      </reference>
+      <reference anchor="RFC9000" target="https://www.rfc-editor.org/info/rfc9000">
+        <front>
+          <title>QUIC: A UDP-Based Multiplexed and Secure Transport</title>
+          <author initials="J." surname="Iyengar" fullname="J. Iyengar" role="editor"/>
+          <author initials="M." surname="Thomson" fullname="M. Thomson" role="editor"/>
+          <date year="2021" month="May"/>
+        </front>
+        <seriesInfo name="RFC" value="9000"/>
+      </reference>
+      <reference anchor="RFC6455" target="https://www.rfc-editor.org/info/rfc6455">
+        <front>
+          <title>The WebSocket Protocol</title>
+          <author initials="I." surname="Fette" fullname="I. Fette"/>
+          <author initials="A." surname="Melnikov" fullname="A. Melnikov"/>
+          <date year="2011" month="December"/>
+        </front>
+        <seriesInfo name="RFC" value="6455"/>
+      </reference>
+    </references>
+
+    <section anchor="acknowledgments" numbered="false">
+      <name>Acknowledgments</name>
+      <t>The rolling-root delta-transfer design and the verifiable-summary block
+      derive from an earlier reference implementation of the protocol.</t>
+    </section>
+  </back>
+</rfc>

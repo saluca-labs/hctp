@@ -1,0 +1,72 @@
+{
+  "genesis_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+  "sequences": {
+    "ascii-3": {
+      "blocks": [
+        {
+          "seq": 0,
+          "role": "user",
+          "raw_text": "Hello, agent.",
+          "summary": "greeting",
+          "content_hash": "f147584aaf1619220e65bb2479151a9cd3e9f60a61bb39f835a2e1511510124c"
+        },
+        {
+          "seq": 1,
+          "role": "agent",
+          "raw_text": "Hello. What do you need?",
+          "summary": "greeting reply",
+          "content_hash": "8914a57df59378c590c3ceee45811cead614d0b4ece46fc416a942824341b0c2"
+        },
+        {
+          "seq": 2,
+          "role": "user",
+          "raw_text": "Summarise RFC 6234.",
+          "summary": "asks for RFC 6234 summary",
+          "content_hash": "8da09e2f397d858d80a74554d165dd07ed6890f2f8b88c95c03c70253630b3df"
+        }
+      ],
+      "ascii_escaped": [
+        {
+          "seq": 0,
+          "canonical": "{\"content_hash\":\"f147584aaf1619220e65bb2479151a9cd3e9f60a61bb39f835a2e1511510124c\",\"role\":\"user\",\"seq\":0,\"summary\":\"greeting\"}",
+          "root": "b83c934e3064759521013688ce3424284d6bdaa391706d8d9111148dc6645be0"
+        },
+        {
+          "seq": 1,
+          "canonical": "{\"content_hash\":\"8914a57df59378c590c3ceee45811cead614d0b4ece46fc416a942824341b0c2\",\"role\":\"agent\",\"seq\":1,\"summary\":\"greeting reply\"}",
+          "root": "9aa6829d8d6dac9ca8db70cb6f1ec593009de2cabb381ce81f8a9082468ed134"
+        },
+        {
+          "seq": 2,
+          "canonical": "{\"content_hash\":\"8da09e2f397d858d80a74554d165dd07ed6890f2f8b88c95c03c70253630b3df\",\"role\":\"user\",\"seq\":2,\"summary\":\"asks for RFC 6234 summary\"}",
+          "root": "e2354b7bf5555847e57e5de40146b02c3deeafc616860576bd51fa1e07adbf01"
+        }
+      ]
+    },
+    "non-ascii-1": {
+      "blocks": [
+        {
+          "seq": 0,
+          "role": "user",
+          "raw_text": "Café, naïve, 東京",
+          "summary": "café in Tōkyō",
+          "content_hash": "55f27a610a16e4c6fc6ae1a2a130dae60624617eba7a5b038e78ba23c01e2279"
+        }
+      ],
+      "ascii_escaped": [
+        {
+          "seq": 0,
+          "canonical": "{\"content_hash\":\"55f27a610a16e4c6fc6ae1a2a130dae60624617eba7a5b038e78ba23c01e2279\",\"role\":\"user\",\"seq\":0,\"summary\":\"caf\\u00e9 in T\\u014dky\\u014d\"}",
+          "root": "12fab95a19a8718690506503a1f7eaffc53c5ab2a49406fb95fa20527d5bfb47"
+        }
+      ],
+      "raw_utf8": [
+        {
+          "seq": 0,
+          "canonical": "{\"content_hash\":\"55f27a610a16e4c6fc6ae1a2a130dae60624617eba7a5b038e78ba23c01e2279\",\"role\":\"user\",\"seq\":0,\"summary\":\"café in Tōkyō\"}",
+          "root": "e5c13f98509eea497a337e4caa0239d8da270db6d2a7df786b7c964cddeb2b36"
+        }
+      ]
+    }
+  }
+}

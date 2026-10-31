@@ -1,0 +1,21 @@
+# Merge gate via salucallc/ci-shared (pinned by commit SHA; the same SHA in gate-ref).
+name: merge-gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    uses: salucallc/ci-shared/.github/workflows/merge-gate.yml@375f24f34042e2ae263180d0ca94d4ebf8efaafd
+    with:
+      gate-ref: 375f24f34042e2ae263180d0ca94d4ebf8efaafd
