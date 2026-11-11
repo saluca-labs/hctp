@@ -68,7 +68,7 @@ No archived record yet. Cite the Internet-Draft as `draft-ruvalcaba-hctp`, https
 
 ## License
 
-Code and test vectors: Apache-2.0, see [LICENSE](LICENSE). The draft text is an IETF contribution, subject to BCP 78 and the IETF Trust's Legal Provisions as stated in the draft itself.
+Code and test vectors: Apache-2.0, see [LICENSE](LICENSE), except the vectors in `test-vectors/rfc8785-237/`, which are MIT, see [LICENSES/MIT.txt](LICENSES/MIT.txt) and the folder's own LICENSE. The draft text is an IETF contribution, subject to BCP 78 and the IETF Trust's Legal Provisions as stated in the draft itself.
 
 HCTP is royalty-free to implement. IPR disclosure 7533 (https://datatracker.ietf.org/ipr/7533/) commits to grant a royalty-free, reasonable and non-discriminatory license to all implementers, under any claims of the identified application that are or become essential to implementing the draft, solely for the purpose of implementing the specification.
 

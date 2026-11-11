@@ -1,0 +1,5599 @@
+{
+  "file": "06_readings",
+  "description": "For each place where the text allows two readings: the chosen and the alternative reading, with vectors that separate them",
+  "cases": [
+    {
+      "id": "place-06-chosen",
+      "kind": "fold",
+      "title": "Non-ASCII raw, as the rule for -01 requires",
+      "draft_refs": [
+        "Section 4, lines 269-271"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 6,
+        "place_title": "Characters outside ASCII in canonical JSON (rule agreed for -01)",
+        "section_lines": "3.1 lines 235-241; 5.1 lines 343-344",
+        "variant": "rule"
+      },
+      "input": {
+        "blocks": [
+          {
+            "content_hash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+            "role": "user",
+            "seq": 0,
+            "summary": "Grüße 😀"
+          }
+        ]
+      },
+      "expected": {
+        "count": 1,
+        "canonical": [
+          "{\"content_hash\":\"2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881\",\"role\":\"user\",\"seq\":0,\"summary\":\"Grüße 😀\"}"
+        ],
+        "canonical_sha256": [
+          "84a8f5c96e95a84dd279c40aca8702b0d789139f078afeb0fe4e9fba3c51f388"
+        ],
+        "roots": [
+          "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+          "d73de0ee44aad0721f6a5e62fbf58b5844662338ee7f8fac4d1c4bf48c527ded"
+        ],
+        "root": "d73de0ee44aad0721f6a5e62fbf58b5844662338ee7f8fac4d1c4bf48c527ded"
+      }
+    },
+    {
+      "id": "place-06-alternative",
+      "kind": "fold",
+      "title": "Non-conforming under the rule for -01: non-ASCII as \\u escapes",
+      "draft_refs": [
+        "Section 4, lines 269-271"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 6,
+        "place_title": "Characters outside ASCII in canonical JSON (rule agreed for -01)",
+        "section_lines": "3.1 lines 235-241; 5.1 lines 343-344",
+        "variant": "nonconforming"
+      },
+      "reading_switches": {
+        "non_ascii": "escape"
+      },
+      "input": {
+        "blocks": [
+          {
+            "content_hash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+            "role": "user",
+            "seq": 0,
+            "summary": "Grüße 😀"
+          }
+        ]
+      },
+      "expected": {
+        "count": 1,
+        "canonical": [
+          "{\"content_hash\":\"2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881\",\"role\":\"user\",\"seq\":0,\"summary\":\"Gr\\u00fc\\u00dfe \\ud83d\\ude00\"}"
+        ],
+        "canonical_sha256": [
+          "e52d20a38ca110036bdc6bb0670fe6767c1573d3590929ecfeefc16d4e417d9a"
+        ],
+        "roots": [
+          "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+          "f5f35bf24cea7f18063ea2b7646bc7639406c08a0f361c2692b093a95105680e"
+        ],
+        "root": "f5f35bf24cea7f18063ea2b7646bc7639406c08a0f361c2692b093a95105680e"
+      }
+    },
+    {
+      "id": "place-07-chosen",
+      "kind": "fold",
+      "title": "Control characters short and \\u001f, as the rule for -01 requires",
+      "draft_refs": [
+        "Section 4, lines 269-271"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 7,
+        "place_title": "Escapes for control characters (rule agreed for -01)",
+        "section_lines": "3.1 lines 235-241",
+        "variant": "rule"
+      },
+      "input": {
+        "blocks": [
+          {
+            "content_hash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+            "role": "user",
+            "seq": 0,
+            "summary": "a\nb\u001f"
+          }
+        ]
+      },
+      "expected": {
+        "count": 1,
+        "canonical": [
+          "{\"content_hash\":\"2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881\",\"role\":\"user\",\"seq\":0,\"summary\":\"a\\nb\\u001f\"}"
+        ],
+        "canonical_sha256": [
+          "72627a143a98eab831b5e005dae7ca075af40e7dda9141fc14f2650dff58a01f"
+        ],
+        "roots": [
+          "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+          "69242ecce2ebd9b63b778112f7b004dc96eefe2b80869c0fb04204be1986decd"
+        ],
+        "root": "69242ecce2ebd9b63b778112f7b004dc96eefe2b80869c0fb04204be1986decd"
+      }
+    },
+    {
+      "id": "place-07-alternative",
+      "kind": "fold",
+      "title": "Non-conforming under the rule for -01: control characters as \\u000A and \\u001F",
+      "draft_refs": [
+        "Section 4, lines 269-271"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 7,
+        "place_title": "Escapes for control characters (rule agreed for -01)",
+        "section_lines": "3.1 lines 235-241",
+        "variant": "nonconforming"
+      },
+      "reading_switches": {
+        "control": "unicode_upper"
+      },
+      "input": {
+        "blocks": [
+          {
+            "content_hash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+            "role": "user",
+            "seq": 0,
+            "summary": "a\nb\u001f"
+          }
+        ]
+      },
+      "expected": {
+        "count": 1,
+        "canonical": [
+          "{\"content_hash\":\"2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881\",\"role\":\"user\",\"seq\":0,\"summary\":\"a\\u000Ab\\u001F\"}"
+        ],
+        "canonical_sha256": [
+          "15290bc7b5bc2e6c59db0ce46cc273ee4eb7e898106a594c0bc5457f563caa39"
+        ],
+        "roots": [
+          "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+          "eaf751c93d1b43975bfa15d190757643f3cdd3c1f2f4683999ecd1e9b903a4e9"
+        ],
+        "root": "eaf751c93d1b43975bfa15d190757643f3cdd3c1f2f4683999ecd1e9b903a4e9"
+      }
+    },
+    {
+      "id": "place-10-chosen",
+      "kind": "fold",
+      "title": "NFD input folded without normalization",
+      "draft_refs": [
+        "Section 4, lines 269-271"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 10,
+        "place_title": "Unicode normalization of role and summary",
+        "section_lines": "3.1 lines 217-219, 232-233, 235-241",
+        "variant": "chosen"
+      },
+      "input": {
+        "blocks": [
+          {
+            "content_hash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+            "role": "user",
+            "seq": 0,
+            "summary": "café"
+          }
+        ]
+      },
+      "expected": {
+        "count": 1,
+        "canonical": [
+          "{\"content_hash\":\"2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881\",\"role\":\"user\",\"seq\":0,\"summary\":\"café\"}"
+        ],
+        "canonical_sha256": [
+          "96c62fd082408bd292d52740efe9998a846264061d6ca1d4f363757629211f06"
+        ],
+        "roots": [
+          "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+          "86f59c9732c0a05e5d3bdd71eacb81be4797e6e1fa5902849340fece0e1b18bb"
+        ],
+        "root": "86f59c9732c0a05e5d3bdd71eacb81be4797e6e1fa5902849340fece0e1b18bb"
+      }
+    },
+    {
+      "id": "place-10-alternative",
+      "kind": "fold",
+      "title": "Result of an NFC-normalizing reader: the NFC form folded",
+      "draft_refs": [
+        "Section 4, lines 269-271"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 10,
+        "place_title": "Unicode normalization of role and summary",
+        "section_lines": "3.1 lines 217-219, 232-233, 235-241",
+        "variant": "alternative"
+      },
+      "note": "The NFC form of the input block of the chosen case is folded; the implementation that produced these vectors does not normalize.",
+      "input": {
+        "blocks": [
+          {
+            "content_hash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+            "role": "user",
+            "seq": 0,
+            "summary": "café"
+          }
+        ]
+      },
+      "expected": {
+        "count": 1,
+        "canonical": [
+          "{\"content_hash\":\"2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881\",\"role\":\"user\",\"seq\":0,\"summary\":\"café\"}"
+        ],
+        "canonical_sha256": [
+          "e7835d47229a36a7daccd2b6ed50d130d503920312b8d52609f0f53b31294ea0"
+        ],
+        "roots": [
+          "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+          "6534e67dc77546e809b0b391d899dac46d7d3e9b34c82ad526e102ada80515c8"
+        ],
+        "root": "6534e67dc77546e809b0b391d899dac46d7d3e9b34c82ad526e102ada80515c8"
+      }
+    },
+    {
+      "id": "place-08-chosen",
+      "kind": "scenario",
+      "title": "seq as 0.0",
+      "draft_refs": [
+        "Section 3.1, lines 235-241"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 8,
+        "place_title": "How the number seq is written",
+        "section_lines": "3.1 lines 213-215 and 235-241",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0.0,\"summary\":\"Zusammenfassung A 0\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "1ee7a7ff4c97d1964f99bc7afc60f4d65551d73db20abe3338378383c9f9df42",
+              "length": 203
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "not_canonical"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-08-alternative",
+      "kind": "scenario",
+      "title": "seq as 0.0, re-canonicalized as in RFC 8785",
+      "draft_refs": [
+        "Section 3.1, lines 235-241"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 8,
+        "place_title": "How the number seq is written",
+        "section_lines": "3.1 lines 213-215 and 235-241",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "canon_mode": "recanonicalize"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0.0,\"summary\":\"Zusammenfassung A 0\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "1ee7a7ff4c97d1964f99bc7afc60f4d65551d73db20abe3338378383c9f9df42",
+              "length": 203
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-09-chosen",
+      "kind": "scenario",
+      "title": "Whitespace in the array: rejected in strict mode",
+      "draft_refs": [
+        "Section 3.1, lines 235-241",
+        "Section 5.1, lines 330, 341-344",
+        "Section 6.3, lines 474-476"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 9,
+        "place_title": "Receiver and non-canonical JSON",
+        "section_lines": "3.1 lines 235-241; 5.1 lines 343-344; 6.3 lines 474-476",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[ {\"content_hash\": \"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\", \"role\": \"user\", \"seq\": 0, \"summary\": \"Zusammenfassung A 0\"} ]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "f1bb5c70ff0832df32fbec7f389446cee64ae216040dbf96a16288496e7baefc",
+              "length": 204
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "not_canonical"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-09-alternative",
+      "kind": "scenario",
+      "title": "Whitespace: re-canonicalized, root as for canonical input",
+      "draft_refs": [
+        "Section 3.1, lines 235-241",
+        "Section 6.3, lines 474-476"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 9,
+        "place_title": "Receiver and non-canonical JSON",
+        "section_lines": "3.1 lines 235-241; 5.1 lines 343-344; 6.3 lines 474-476",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "canon_mode": "recanonicalize"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[ {\"content_hash\": \"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\", \"role\": \"user\", \"seq\": 0, \"summary\": \"Zusammenfassung A 0\"} ]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "f1bb5c70ff0832df32fbec7f389446cee64ae216040dbf96a16288496e7baefc",
+              "length": 204
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-09-alternative-2",
+      "kind": "scenario",
+      "title": "Whitespace: folded over the received bytes, different root",
+      "draft_refs": [
+        "Section 3.1, lines 235-241",
+        "Section 6.3, lines 474-476"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 9,
+        "place_title": "Receiver and non-canonical JSON",
+        "section_lines": "3.1 lines 235-241; 5.1 lines 343-344; 6.3 lines 474-476",
+        "variant": "alternative_2"
+      },
+      "reading_switches": {
+        "canon_mode": "raw_bytes"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[ {\"content_hash\": \"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\", \"role\": \"user\", \"seq\": 0, \"summary\": \"Zusammenfassung A 0\"} ]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "f1bb5c70ff0832df32fbec7f389446cee64ae216040dbf96a16288496e7baefc",
+              "length": 204
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "3dbec61e9d1ffd8e4b4be3fefc4359cf31622ea867befa43fedaa1808ffcff3e"
+            },
+            "ack_hex": "0141000000003dbec61e9d1ffd8e4b4be3fefc4359cf31622ea867befa43fedaa1808ffcff3e"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "3dbec61e9d1ffd8e4b4be3fefc4359cf31622ea867befa43fedaa1808ffcff3e",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-11-chosen",
+      "kind": "scenario",
+      "title": "Extra member rejected",
+      "draft_refs": [
+        "Section 3.1, lines 235-241"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 11,
+        "place_title": "Extra, missing and duplicate members at the receiver",
+        "section_lines": "3.1 lines 235-237",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\",\"x\":1}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "85e8f91116a77da82fce3e6a6e556d6761042e5d1bc71bf195ffb0449f99c34b",
+              "length": 206
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "member_extra"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-11-alternative",
+      "kind": "scenario",
+      "title": "Extra member ignored, re-canonicalized",
+      "draft_refs": [
+        "Section 3.1, lines 235-241"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 11,
+        "place_title": "Extra, missing and duplicate members at the receiver",
+        "section_lines": "3.1 lines 235-237",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "reject_extra_members": false,
+        "canon_mode": "recanonicalize"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\",\"x\":1}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "85e8f91116a77da82fce3e6a6e556d6761042e5d1bc71bf195ffb0449f99c34b",
+              "length": 206
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-11-chosen-b",
+      "kind": "scenario",
+      "title": "Duplicate summary rejected",
+      "draft_refs": [
+        "Section 3.1, lines 235-241"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 11,
+        "place_title": "Extra, missing and duplicate members at the receiver",
+        "section_lines": "3.1 lines 235-237",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"t\",\"summary\":\"Zusammenfassung A 0\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "19a550efe6522758dcbdb3d36c96a0c7cff2552cd1687a63dcfb7e425c6d56e2",
+              "length": 205
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "member_duplicate"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-11-alternative-b",
+      "kind": "scenario",
+      "title": "Duplicate summary, last one wins, re-canonicalized",
+      "draft_refs": [
+        "Section 3.1, lines 235-241"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 11,
+        "place_title": "Extra, missing and duplicate members at the receiver",
+        "section_lines": "3.1 lines 235-237",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "duplicate_members": "last_wins",
+        "canon_mode": "recanonicalize"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"t\",\"summary\":\"Zusammenfassung A 0\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "19a550efe6522758dcbdb3d36c96a0c7cff2552cd1687a63dcfb7e425c6d56e2",
+              "length": 205
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-12-chosen",
+      "kind": "scenario",
+      "title": "content_hash uppercase: rejected",
+      "draft_refs": [
+        "Section 3.1, lines 229-230"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 12,
+        "place_title": "Form of content_hash at the receiver",
+        "section_lines": "3.1 lines 229-230",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"C7B5EF9BE0181EF80D4A54046102D01529E41F3097277FCD6BA7C4C48C65559E\",\"role\":\"user\",\"seq\":0,\"summary\":\"s\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "a0a054a3a01d1e8a080a2b085b30855e01ff179ac85d939ac8cf4a980d5a8de7",
+              "length": 193
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "content_hash_form"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-12-alternative",
+      "kind": "scenario",
+      "title": "content_hash uppercase: accepted and folded as received",
+      "draft_refs": [
+        "Section 3.1, lines 229-230"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 12,
+        "place_title": "Form of content_hash at the receiver",
+        "section_lines": "3.1 lines 229-230",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "check_content_hash_form": false
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"C7B5EF9BE0181EF80D4A54046102D01529E41F3097277FCD6BA7C4C48C65559E\",\"role\":\"user\",\"seq\":0,\"summary\":\"s\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "a0a054a3a01d1e8a080a2b085b30855e01ff179ac85d939ac8cf4a980d5a8de7",
+              "length": 193
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "bc735e858ed4aa82e2cb9ddf40efa8e6ce7620fba9829d59afa7b28c8bff22c4"
+            },
+            "ack_hex": "014100000000bc735e858ed4aa82e2cb9ddf40efa8e6ce7620fba9829d59afa7b28c8bff22c4"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "bc735e858ed4aa82e2cb9ddf40efa8e6ce7620fba9829d59afa7b28c8bff22c4",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-13-chosen",
+      "kind": "scenario",
+      "title": "Summary of 121 code points: rejected",
+      "draft_refs": [
+        "Section 3.1, lines 232-233"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 13,
+        "place_title": "MAX_SUMMARY_LEN at the receiver",
+        "section_lines": "3.1 lines 232-233; 9 line 597",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "7a09140677fecc483d6a128a926919f3e1d0e209fdae1536f9e5dde8c3a3e34f",
+              "length": 193
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "summary_too_long"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-13-alternative",
+      "kind": "scenario",
+      "title": "Summary of 121 code points: accepted",
+      "draft_refs": [
+        "Section 3.1, lines 232-233"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 13,
+        "place_title": "MAX_SUMMARY_LEN at the receiver",
+        "section_lines": "3.1 lines 232-233; 9 line 597",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "enforce_summary_len": false
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "7a09140677fecc483d6a128a926919f3e1d0e209fdae1536f9e5dde8c3a3e34f",
+              "length": 193
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "e68ae598d4ea2685d4d55c2ec2d87c8600dcfa4a8a954a5e54ee43ba0b2262a7"
+            },
+            "ack_hex": "014100000000e68ae598d4ea2685d4d55c2ec2d87c8600dcfa4a8a954a5e54ee43ba0b2262a7"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "e68ae598d4ea2685d4d55c2ec2d87c8600dcfa4a8a954a5e54ee43ba0b2262a7",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-14-chosen",
+      "kind": "scenario",
+      "title": "Role of 1000 characters: no limit, accepted",
+      "draft_refs": [
+        "Section 3.1, lines 217-219"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 14,
+        "place_title": "How short a \"short\" role is",
+        "section_lines": "3.1 lines 217-219",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr\",\"seq\":0,\"summary\":\"s\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "f83f0d056b270dbc08f915ee22b191c154af13ec70cf70b736abcc917f9cce72",
+              "length": 196
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "91b660e08b9c4c751662b4142d64f9cee4b434cdaaf779514597ca54c1a53b14"
+            },
+            "ack_hex": "01410000000091b660e08b9c4c751662b4142d64f9cee4b434cdaaf779514597ca54c1a53b14"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "91b660e08b9c4c751662b4142d64f9cee4b434cdaaf779514597ca54c1a53b14",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-14-alternative",
+      "kind": "scenario",
+      "title": "Role of 1000 characters: assumed limit 32, rejected",
+      "draft_refs": [
+        "Section 3.1, lines 217-219"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 14,
+        "place_title": "How short a \"short\" role is",
+        "section_lines": "3.1 lines 217-219",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "max_role_len": 32
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr\",\"seq\":0,\"summary\":\"s\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "f83f0d056b270dbc08f915ee22b191c154af13ec70cf70b736abcc917f9cce72",
+              "length": 196
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "role_too_long"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-15-chosen",
+      "kind": "scenario",
+      "title": "Gap [0, 2]: rejected",
+      "draft_refs": [
+        "Section 3.1, lines 213-215"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 15,
+        "place_title": "Contiguous seq, checked by the receiver",
+        "section_lines": "3.1 lines 213-215",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 2,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"cf6d9cbf875b330f099035c257d62267b1f3caf04bc1f976b59fe200c1b7044d\",\"role\":\"user\",\"seq\":2,\"summary\":\"Zusammenfassung A 2\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "d63a84e22a2d5d23f01efa16608b5dfeb06aecb6836cf34724f56b413179c85d",
+              "length": 256
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "seq_gap"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-15-alternative",
+      "kind": "scenario",
+      "title": "Gap [0, 2]: accepted",
+      "draft_refs": [
+        "Section 3.1, lines 213-215"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 15,
+        "place_title": "Contiguous seq, checked by the receiver",
+        "section_lines": "3.1 lines 213-215",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "check_contiguous": false
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 2,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"cf6d9cbf875b330f099035c257d62267b1f3caf04bc1f976b59fe200c1b7044d\",\"role\":\"user\",\"seq\":2,\"summary\":\"Zusammenfassung A 2\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "d63a84e22a2d5d23f01efa16608b5dfeb06aecb6836cf34724f56b413179c85d",
+              "length": 256
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 2,
+              "new_root": "0f3f6a8d0a1ab3a5f71823ab0699c725b9d784f5fdf8b0e1ee66ae18db56d55f"
+            },
+            "ack_hex": "0141000000020f3f6a8d0a1ab3a5f71823ab0699c725b9d784f5fdf8b0e1ee66ae18db56d55f"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "0f3f6a8d0a1ab3a5f71823ab0699c725b9d784f5fdf8b0e1ee66ae18db56d55f",
+              "last_seen_seq": 2,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-17-chosen",
+      "kind": "scenario",
+      "title": "Order [1, 0]: rejected",
+      "draft_refs": [
+        "Section 5.1, lines 330, 341-344"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 17,
+        "place_title": "Ascending order in the array at the receiver",
+        "section_lines": "5.1 lines 341-342",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"},{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "b567c2e8ea119e37b73230af26c4fa624e33fa38c3470e74f06bd5c3b48ad4e6",
+              "length": 256
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "order"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-17-alternative",
+      "kind": "scenario",
+      "title": "Order [1, 0]: folded in received order",
+      "draft_refs": [
+        "Section 5.1, lines 330, 341-344"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 17,
+        "place_title": "Ascending order in the array at the receiver",
+        "section_lines": "5.1 lines 341-342",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "check_ascending": false,
+        "check_contiguous": false
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"},{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "b567c2e8ea119e37b73230af26c4fa624e33fa38c3470e74f06bd5c3b48ad4e6",
+              "length": 256
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "fc54cdb3f450e8062a9163e67a0653da5beb20919f95c30eaccc937b32938f7c"
+            },
+            "ack_hex": "014100000000fc54cdb3f450e8062a9163e67a0653da5beb20919f95c30eaccc937b32938f7c"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "fc54cdb3f450e8062a9163e67a0653da5beb20919f95c30eaccc937b32938f7c",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-16-chosen",
+      "kind": "scenario",
+      "title": "Reverse direction starts at seq 2 (session counter) instead of 0 (chain counter)",
+      "draft_refs": [
+        "Section 3.1, lines 213-215",
+        "Section 7, lines 536-546"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 16,
+        "place_title": "seq per session or per direction chain",
+        "section_lines": "3.1 lines 213-215 against 7 lines 536-546 and 6.1 lines 381-383",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          },
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 2,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"694293e93d3714bcdc570306be8a5c87623578ebeeb3192e00a6fee63658f96a\",\"role\":\"agent\",\"seq\":2,\"summary\":\"Zusammenfassung B 2\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "seq": 1
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}]",
+              "dynamic_plain_length": 277,
+              "dynamic_plain_sha256": "8afbbdaa67f3a2fa3149a983515ec88177db4d1286131c54a93fb77e10c0ce8d",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 182,
+                "combined_hash": "738a3d3a1f339c84d2b713e23ce7186830a8df75edca22c4d71299437538a525",
+                "packet_sha256": "2666deb114b6f91a5c2b12c7a2df9d09b059b8b9f0b4a39f7463c9fef80344d0"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+            },
+            "ack_hex": "0141000000015e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+          },
+          {
+            "handled_by": "sender",
+            "result": "accepted"
+          },
+          {
+            "informative": {
+              "packet_sha256": "7fd19c59d11a865426d8e9a910cc6519cf4cb8dd6afa3c13e21be88ddc522362",
+              "length": 202
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "seq_gap"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-16-alternative",
+      "kind": "scenario",
+      "title": "Reverse direction starts at seq 2 (session counter) instead of 0 (chain counter)",
+      "draft_refs": [
+        "Section 3.1, lines 213-215",
+        "Section 7, lines 536-546"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 16,
+        "place_title": "seq per session or per direction chain",
+        "section_lines": "3.1 lines 213-215 against 7 lines 536-546 and 6.1 lines 381-383",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "seq_scope": "per_session"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          },
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 2,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"694293e93d3714bcdc570306be8a5c87623578ebeeb3192e00a6fee63658f96a\",\"role\":\"agent\",\"seq\":2,\"summary\":\"Zusammenfassung B 2\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "seq": 1
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}]",
+              "dynamic_plain_length": 277,
+              "dynamic_plain_sha256": "8afbbdaa67f3a2fa3149a983515ec88177db4d1286131c54a93fb77e10c0ce8d",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 182,
+                "combined_hash": "738a3d3a1f339c84d2b713e23ce7186830a8df75edca22c4d71299437538a525",
+                "packet_sha256": "2666deb114b6f91a5c2b12c7a2df9d09b059b8b9f0b4a39f7463c9fef80344d0"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+            },
+            "ack_hex": "0141000000015e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+          },
+          {
+            "handled_by": "sender",
+            "result": "accepted"
+          },
+          {
+            "informative": {
+              "packet_sha256": "7fd19c59d11a865426d8e9a910cc6519cf4cb8dd6afa3c13e21be88ddc522362",
+              "length": 202
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 2,
+              "new_root": "f34312ac02796fb0b62060ad2f3bd8de9f640736497b57654153f74af0ad592a"
+            },
+            "ack_hex": "014100000002f34312ac02796fb0b62060ad2f3bd8de9f640736497b57654153f74af0ad592a"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-01-chosen",
+      "kind": "scenario",
+      "title": "seq field of a SYNC changed from 0 to 7 (not covered by combined_hash)",
+      "draft_refs": [
+        "Section 5.1, lines 321-322",
+        "Section 5.1, lines 346-348",
+        "Section 6.5, lines 514-516"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 1,
+        "place_title": "seq is not covered by combined_hash",
+        "section_lines": "5.1 lines 321-322 and 346-348",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "mutate",
+            "from": "p1",
+            "as": "p1x",
+            "field": "seq",
+            "offset": 3,
+            "xor": 7,
+            "rehash": false
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1x",
+            "as": "a7"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "p1r"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1r",
+            "as": "a0"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "ok": true
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "seq_not_last_block"
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-01-alternative",
+      "kind": "scenario",
+      "title": "seq field of a SYNC changed from 0 to 7 (not covered by combined_hash)",
+      "draft_refs": [
+        "Section 5.1, lines 321-322",
+        "Section 5.1, lines 346-348",
+        "Section 6.5, lines 514-516"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 1,
+        "place_title": "seq is not covered by combined_hash",
+        "section_lines": "5.1 lines 321-322 and 346-348",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "check_seq_is_last": false
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "mutate",
+            "from": "p1",
+            "as": "p1x",
+            "field": "seq",
+            "offset": 3,
+            "xor": 7,
+            "rehash": false
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1x",
+            "as": "a7"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "p1r"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1r",
+            "as": "a0"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "ok": true
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 7,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000070d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "discarded",
+            "reason": "replay"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "last_seen_seq": 7,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-18-chosen",
+      "kind": "scenario",
+      "title": "Empty array: rejected",
+      "draft_refs": [
+        "Section 5.1, lines 321-322"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 18,
+        "place_title": "A SYNC without blocks",
+        "section_lines": "5.1 lines 321-322; 6.2 line 429",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "6753002bcc56dd6feaf0c0a0fbee8d1edc9d4b267eb5e05ac32a5c1dcab81c6a",
+              "length": 84
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "empty_sync"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-18-alternative",
+      "kind": "scenario",
+      "title": "Empty array: acknowledged as a keep-alive, root unchanged",
+      "draft_refs": [
+        "Section 5.1, lines 321-322"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 18,
+        "place_title": "A SYNC without blocks",
+        "section_lines": "5.1 lines 321-322; 6.2 line 429",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "allow_empty_sync": true
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "6753002bcc56dd6feaf0c0a0fbee8d1edc9d4b267eb5e05ac32a5c1dcab81c6a",
+              "length": 84
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9"
+            },
+            "ack_hex": "014100000000adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-19-chosen",
+      "kind": "scenario",
+      "title": "One octet after combined_hash",
+      "draft_refs": [
+        "Section 5.1, line 328"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 19,
+        "place_title": "Octets after combined_hash",
+        "section_lines": "5.1 lines 328, 350-352; 10 lines 606-607",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+            "packet_append": "00"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "802655a0e90162be122abbf1f4b9ab5de7c4c3408279231dd6588e2662360f1f",
+              "length": 203
+            }
+          },
+          {
+            "result": "packet_error",
+            "reason": "length_mismatch"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-19-alternative",
+      "kind": "scenario",
+      "title": "One octet after combined_hash",
+      "draft_refs": [
+        "Section 5.1, line 328"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 19,
+        "place_title": "Octets after combined_hash",
+        "section_lines": "5.1 lines 328, 350-352; 10 lines 606-607",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "allow_trailing_packet": true
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+            "packet_append": "00"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "802655a0e90162be122abbf1f4b9ab5de7c4c3408279231dd6588e2662360f1f",
+              "length": 203
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-20-chosen",
+      "kind": "scenario",
+      "title": "One octet after the end of the zlib stream, combined_hash over it correct",
+      "draft_refs": [
+        "Section 5.1, lines 330, 341-344"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 20,
+        "place_title": "Details of the zlib stream",
+        "section_lines": "5.1 line 330; 9 line 601",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+            "zlib_append": "00"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "34f288a26a4712f3c0ba74b444c17a771ea4711a2cea35aac3424e7e45d36611",
+              "length": 203
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "zlib_trailing_bytes"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-20-alternative",
+      "kind": "scenario",
+      "title": "One octet after the end of the zlib stream, combined_hash over it correct",
+      "draft_refs": [
+        "Section 5.1, lines 330, 341-344"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 20,
+        "place_title": "Details of the zlib stream",
+        "section_lines": "5.1 line 330; 9 line 601",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "allow_trailing_zlib": true
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+            "zlib_append": "00"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "34f288a26a4712f3c0ba74b444c17a771ea4711a2cea35aac3424e7e45d36611",
+              "length": 203
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-33-chosen",
+      "kind": "scenario",
+      "title": "Same blocks with compression level 0 and level 9: packet bytes and combined_hash differ, root after ACK equal",
+      "draft_refs": [
+        "Section 5.1, lines 330, 341-344",
+        "Section 5.1, lines 346-348"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 33,
+        "place_title": "Compression level and compressor not fixed",
+        "section_lines": "5.1 line 330 and 346-348; 9 line 601",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {
+            "reading_switches": {
+              "level": 0
+            }
+          },
+          "B": {},
+          "A9": {
+            "reading_switches": {
+              "level": 9
+            }
+          },
+          "B9": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "add",
+            "who": "A9",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p0"
+          },
+          {
+            "op": "send",
+            "who": "A9",
+            "as": "p9"
+          },
+          {
+            "op": "compare",
+            "a": "p0",
+            "b": "p9"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p0",
+            "as": "a0"
+          },
+          {
+            "op": "recv",
+            "who": "B9",
+            "packet": "p9",
+            "as": "a9"
+          },
+          {
+            "op": "compare",
+            "a": "a0",
+            "b": "a9"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 150,
+                "combined_hash": "f566dcea3285981e84cd37bf8750a94982467a2c2bc8c1d827436bff2e106336",
+                "packet_sha256": "d5976e06781af25302c3d2815fede708f1b7a41906b0ad191f0668fc59c09f03"
+              }
+            }
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "d43497fa39704458b932a1207e7e37ba1f9755ae153cb705413a60ba345e01c2",
+                "packet_sha256": "310edc63dc39dc2844605f05d681fa1fa3b95052ef8e708412141a4c191a199d"
+              }
+            }
+          },
+          {
+            "bytes_equal": false,
+            "dynamic_plain_equal": true,
+            "static_root_equal": true,
+            "seq_equal": true
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "bytes_equal": true,
+            "dynamic_plain_equal": true,
+            "static_root_equal": true,
+            "seq_equal": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-21-chosen",
+      "kind": "scenario",
+      "title": "Retransmitted SYNC with altered dynamic_data after the original was accepted",
+      "draft_refs": [
+        "Section 6.3, lines 439-440",
+        "Section 6.3, lines 459-463",
+        "Section 6.3, lines 465-467"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 21,
+        "place_title": "Replay rule before the integrity check",
+        "section_lines": "6.3 lines 439-440, 459-467",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          },
+          {
+            "op": "mutate",
+            "from": "p1",
+            "as": "p1x",
+            "field": "dynamic_data",
+            "offset": 2,
+            "xor": 1,
+            "rehash": false
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "ok": true
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack_from_cache",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-21-alternative",
+      "kind": "scenario",
+      "title": "Retransmitted SYNC with altered dynamic_data after the original was accepted",
+      "draft_refs": [
+        "Section 6.3, lines 439-440",
+        "Section 6.3, lines 459-463",
+        "Section 6.3, lines 465-467"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 21,
+        "place_title": "Replay rule before the integrity check",
+        "section_lines": "6.3 lines 439-440, 459-467",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "integrity_first": true
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          },
+          {
+            "op": "mutate",
+            "from": "p1",
+            "as": "p1x",
+            "field": "dynamic_data",
+            "offset": 2,
+            "xor": 1,
+            "rehash": false
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "ok": true
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "integrity"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-22-chosen",
+      "kind": "scenario",
+      "title": "After SYNC seq 1 was accepted: a new SYNC with seq 1, static_root = current local_root, block 2",
+      "draft_refs": [
+        "Section 6.3, lines 453-457",
+        "Section 6.3, lines 459-463"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 22,
+        "place_title": "Same seq, different root",
+        "section_lines": "6.3 lines 453-463",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          },
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 1,
+            "static_root": "rx:B",
+            "plain": "[{\"content_hash\":\"cf6d9cbf875b330f099035c257d62267b1f3caf04bc1f976b59fe200c1b7044d\",\"role\":\"user\",\"seq\":2,\"summary\":\"Zusammenfassung A 2\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "seq": 1
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}]",
+              "dynamic_plain_length": 277,
+              "dynamic_plain_sha256": "8afbbdaa67f3a2fa3149a983515ec88177db4d1286131c54a93fb77e10c0ce8d",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 182,
+                "combined_hash": "738a3d3a1f339c84d2b713e23ce7186830a8df75edca22c4d71299437538a525",
+                "packet_sha256": "2666deb114b6f91a5c2b12c7a2df9d09b059b8b9f0b4a39f7463c9fef80344d0"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+            },
+            "ack_hex": "0141000000015e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+          },
+          {
+            "informative": {
+              "packet_sha256": "6b3955571dce1c1941499aa3feb2f56e8cf29a271a617dbfae48a18cc6150012",
+              "length": 202
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "seq_not_last_block"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-22-alternative",
+      "kind": "scenario",
+      "title": "After SYNC seq 1 was accepted: a new SYNC with seq 1, static_root = current local_root, block 2",
+      "draft_refs": [
+        "Section 6.3, lines 453-457",
+        "Section 6.3, lines 459-463"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 22,
+        "place_title": "Same seq, different root",
+        "section_lines": "6.3 lines 453-463",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "equal_seq_other_root": "discard"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          },
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 1,
+            "static_root": "rx:B",
+            "plain": "[{\"content_hash\":\"cf6d9cbf875b330f099035c257d62267b1f3caf04bc1f976b59fe200c1b7044d\",\"role\":\"user\",\"seq\":2,\"summary\":\"Zusammenfassung A 2\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "seq": 1
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}]",
+              "dynamic_plain_length": 277,
+              "dynamic_plain_sha256": "8afbbdaa67f3a2fa3149a983515ec88177db4d1286131c54a93fb77e10c0ce8d",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 182,
+                "combined_hash": "738a3d3a1f339c84d2b713e23ce7186830a8df75edca22c4d71299437538a525",
+                "packet_sha256": "2666deb114b6f91a5c2b12c7a2df9d09b059b8b9f0b4a39f7463c9fef80344d0"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+            },
+            "ack_hex": "0141000000015e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+          },
+          {
+            "informative": {
+              "packet_sha256": "6b3955571dce1c1941499aa3feb2f56e8cf29a271a617dbfae48a18cc6150012",
+              "length": 202
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "discarded",
+            "reason": "same_seq_other_root"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-22-alternative-2",
+      "kind": "scenario",
+      "title": "After SYNC seq 1 was accepted: a new SYNC with seq 1, static_root = current local_root, block 2",
+      "draft_refs": [
+        "Section 6.3, lines 453-457",
+        "Section 6.3, lines 459-463"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 22,
+        "place_title": "Same seq, different root",
+        "section_lines": "6.3 lines 453-463",
+        "variant": "alternative_2"
+      },
+      "reading_switches": {
+        "check_seq_is_last": false
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          },
+          {
+            "op": "build_sync",
+            "as": "x",
+            "seq": 1,
+            "static_root": "rx:B",
+            "plain": "[{\"content_hash\":\"cf6d9cbf875b330f099035c257d62267b1f3caf04bc1f976b59fe200c1b7044d\",\"role\":\"user\",\"seq\":2,\"summary\":\"Zusammenfassung A 2\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "x"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "seq": 1
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}]",
+              "dynamic_plain_length": 277,
+              "dynamic_plain_sha256": "8afbbdaa67f3a2fa3149a983515ec88177db4d1286131c54a93fb77e10c0ce8d",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 182,
+                "combined_hash": "738a3d3a1f339c84d2b713e23ce7186830a8df75edca22c4d71299437538a525",
+                "packet_sha256": "2666deb114b6f91a5c2b12c7a2df9d09b059b8b9f0b4a39f7463c9fef80344d0"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+            },
+            "ack_hex": "0141000000015e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+          },
+          {
+            "informative": {
+              "packet_sha256": "6b3955571dce1c1941499aa3feb2f56e8cf29a271a617dbfae48a18cc6150012",
+              "length": 202
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "11ed10280ebd7a790b4759551a99016cb2af6f06c9c1fd567b59515e14b5357a"
+            },
+            "ack_hex": "01410000000111ed10280ebd7a790b4759551a99016cb2af6f06c9c1fd567b59515e14b5357a"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-23-chosen",
+      "kind": "scenario",
+      "title": "Integrity failure, then the correct packet",
+      "draft_refs": [
+        "Section 6.3, lines 465-467",
+        "Section 6.6, lines 522-525"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 23,
+        "place_title": "What \"reject\" means",
+        "section_lines": "5.1 lines 316-317; 6.3 lines 465-472; 6.6 lines 522-525",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "mutate",
+            "from": "p1",
+            "as": "p1x",
+            "field": "dynamic_data",
+            "offset": 2,
+            "xor": 1,
+            "rehash": false
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1x"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "ok": true
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "integrity"
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-23-alternative",
+      "kind": "scenario",
+      "title": "Integrity failure, then the correct packet",
+      "draft_refs": [
+        "Section 6.3, lines 465-467",
+        "Section 6.6, lines 522-525"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 23,
+        "place_title": "What \"reject\" means",
+        "section_lines": "5.1 lines 316-317; 6.3 lines 465-472; 6.6 lines 522-525",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "integrity_fatal": true
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "mutate",
+            "from": "p1",
+            "as": "p1x",
+            "field": "dynamic_data",
+            "offset": 2,
+            "xor": 1,
+            "rehash": false
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1x"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "ok": true
+          },
+          {
+            "handled_by": "receiver",
+            "result": "fatal",
+            "reason": "integrity"
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "session_ended"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-02-chosen",
+      "kind": "scenario",
+      "title": "First SYNC carries only block 0, ACK seq 0",
+      "draft_refs": [
+        "Section 6.4, lines 488-489"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 2,
+        "place_title": "Initial value of last_acked_seq",
+        "section_lines": "6.1 line 416; 6.4 lines 488-489",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "handled_by": "sender",
+            "result": "accepted"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-02-alternative",
+      "kind": "scenario",
+      "title": "First SYNC carries only block 0, ACK seq 0",
+      "draft_refs": [
+        "Section 6.4, lines 488-489"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 2,
+        "place_title": "Initial value of last_acked_seq",
+        "section_lines": "6.1 line 416; 6.4 lines 488-489",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "last_acked_initial_zero": true
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "handled_by": "sender",
+            "result": "ignored",
+            "reason": "not_newer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-24-chosen",
+      "kind": "scenario",
+      "title": "SYNC carries 0 and 1, then block 2 is added, ACK seq 1 arrives",
+      "draft_refs": [
+        "Section 6.4, lines 491-492",
+        "Section 6.4, lines 494-495",
+        "Section 6.4, lines 497-498"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 24,
+        "place_title": "Which blocks the sender folds on ACK",
+        "section_lines": "6.4 lines 491-498 against 5.1 lines 321-322 and 6.1 line 409",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 2",
+            "summary": "Zusammenfassung A 2"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "seq": 1
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}]",
+              "dynamic_plain_length": 277,
+              "dynamic_plain_sha256": "8afbbdaa67f3a2fa3149a983515ec88177db4d1286131c54a93fb77e10c0ce8d",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 182,
+                "combined_hash": "738a3d3a1f339c84d2b713e23ce7186830a8df75edca22c4d71299437538a525",
+                "packet_sha256": "2666deb114b6f91a5c2b12c7a2df9d09b059b8b9f0b4a39f7463c9fef80344d0"
+              }
+            }
+          },
+          {
+            "seq": 2
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+            },
+            "ack_hex": "0141000000015e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+          },
+          {
+            "handled_by": "sender",
+            "result": "accepted"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-24-alternative",
+      "kind": "scenario",
+      "title": "SYNC carries 0 and 1, then block 2 is added, ACK seq 1 arrives",
+      "draft_refs": [
+        "Section 6.4, lines 491-492",
+        "Section 6.4, lines 494-495",
+        "Section 6.4, lines 497-498"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 24,
+        "place_title": "Which blocks the sender folds on ACK",
+        "section_lines": "6.4 lines 491-498 against 5.1 lines 321-322 and 6.1 line 409",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "ack_scope": "all_pending"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 2",
+            "summary": "Zusammenfassung A 2"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "seq": 1
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"},{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}]",
+              "dynamic_plain_length": 277,
+              "dynamic_plain_sha256": "8afbbdaa67f3a2fa3149a983515ec88177db4d1286131c54a93fb77e10c0ce8d",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 182,
+                "combined_hash": "738a3d3a1f339c84d2b713e23ce7186830a8df75edca22c4d71299437538a525",
+                "packet_sha256": "2666deb114b6f91a5c2b12c7a2df9d09b059b8b9f0b4a39f7463c9fef80344d0"
+              }
+            }
+          },
+          {
+            "seq": 2
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+            },
+            "ack_hex": "0141000000015e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+          },
+          {
+            "handled_by": "sender",
+            "result": "fatal",
+            "reason": "root_mismatch"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-25-chosen",
+      "kind": "scenario",
+      "title": "First an ACK with a wrong new_root, then the correct ACK",
+      "draft_refs": [
+        "Section 6.4, lines 494-495",
+        "Section 6.6, lines 522-525"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 25,
+        "place_title": "ACK with a wrong new_root",
+        "section_lines": "6.4 lines 491-495; 6.6 lines 522-525",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "build_ack",
+            "as": "f",
+            "seq": 0,
+            "new_root": "genesis"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "f"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "hex": "014100000000adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9"
+          },
+          {
+            "handled_by": "sender",
+            "result": "fatal",
+            "reason": "root_mismatch"
+          },
+          {
+            "handled_by": "sender",
+            "result": "ignored",
+            "reason": "session_ended"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-25-alternative",
+      "kind": "scenario",
+      "title": "First an ACK with a wrong new_root, then the correct ACK",
+      "draft_refs": [
+        "Section 6.4, lines 494-495",
+        "Section 6.6, lines 522-525"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 25,
+        "place_title": "ACK with a wrong new_root",
+        "section_lines": "6.4 lines 491-495; 6.6 lines 522-525",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "ack_mismatch": "ignore_tentative"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "build_ack",
+            "as": "f",
+            "seq": 0,
+            "new_root": "genesis"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "f"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "hex": "014100000000adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9"
+          },
+          {
+            "handled_by": "sender",
+            "result": "ignored",
+            "reason": "root_mismatch"
+          },
+          {
+            "handled_by": "sender",
+            "result": "accepted"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-25-alternative-2",
+      "kind": "scenario",
+      "title": "First an ACK with a wrong new_root, then the correct ACK",
+      "draft_refs": [
+        "Section 6.4, lines 494-495",
+        "Section 6.6, lines 522-525"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 25,
+        "place_title": "ACK with a wrong new_root",
+        "section_lines": "6.4 lines 491-495; 6.6 lines 522-525",
+        "variant": "alternative_2"
+      },
+      "reading_switches": {
+        "ack_mismatch": "ignore_folded_in"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "build_ack",
+            "as": "f",
+            "seq": 0,
+            "new_root": "genesis"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "f"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "hex": "014100000000adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9"
+          },
+          {
+            "handled_by": "sender",
+            "result": "ignored",
+            "reason": "root_mismatch"
+          },
+          {
+            "handled_by": "sender",
+            "result": "ignored",
+            "reason": "root_mismatch"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-34-chosen",
+      "kind": "scenario",
+      "title": "Two timeouts in a row",
+      "draft_refs": [
+        "Section 6.5, lines 511-513",
+        "Section 6.5, lines 517-518"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 34,
+        "place_title": "Retransmit timer and limit",
+        "section_lines": "6.1 line 418; 6.5 lines 511-518; 9",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "x"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "y"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-34-alternative",
+      "kind": "scenario",
+      "title": "Two timeouts in a row",
+      "draft_refs": [
+        "Section 6.5, lines 511-513",
+        "Section 6.5, lines 517-518"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 34,
+        "place_title": "Retransmit timer and limit",
+        "section_lines": "6.1 line 418; 6.5 lines 511-518; 9",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "max_retransmits": 1
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "x"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "y"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "error": "transport_failure"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-26-chosen",
+      "kind": "scenario",
+      "title": "All ACKs lost: the receiver has folded, the sender has not; transport failure leaves different roots",
+      "draft_refs": [
+        "Section 6.5, lines 517-518",
+        "Section 6.3, lines 478-482",
+        "Section 6.2, lines 434-435"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 26,
+        "place_title": "State after transport failure",
+        "section_lines": "6.5 lines 517-518; 6.3 lines 478-482",
+        "variant": "chosen"
+      },
+      "note": "A reading in which the sender, after the transport failure, later resends the same seq over the same root would get the cached ACK; the text does not say so. Not executed.",
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "x"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "x"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "x"
+          },
+          {
+            "op": "timeout",
+            "who": "A",
+            "as": "x"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p2"
+          },
+          {
+            "op": "state",
+            "who": "A"
+          },
+          {
+            "op": "state",
+            "who": "B"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "error": "transport_failure"
+          },
+          {
+            "error": "sync_outstanding"
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [
+                0
+              ],
+              "next_seq": 1,
+              "pending_seq": 0,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 3,
+              "transport_failure": true,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "last_seen_seq": 0,
+              "has_seen": false,
+              "ack_cache_pre_fold_root": null,
+              "dead": false
+            },
+            "token": false
+          },
+          {
+            "tx": {
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic": [],
+              "next_seq": 0,
+              "pending_seq": null,
+              "last_acked_seq": null,
+              "timer": false,
+              "retransmits": 0,
+              "transport_failure": false,
+              "dead": false
+            },
+            "rx": {
+              "local_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "last_seen_seq": 0,
+              "has_seen": true,
+              "ack_cache_pre_fold_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dead": false
+            },
+            "token": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-03-chosen",
+      "kind": "scenario",
+      "title": "Section 10 literally: two parts with the same static_root; the second fails alignment",
+      "draft_refs": [
+        "Section 10, lines 610-622",
+        "Section 6.3, lines 469-472"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 3,
+        "place_title": "Splitting a window across several SYNCs",
+        "section_lines": "10 lines 610-622 against 6.3 lines 469-482 and 6.1 lines 413-414",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "build_sync",
+            "as": "f1",
+            "seq": 0,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]"
+          },
+          {
+            "op": "build_sync",
+            "as": "f2",
+            "seq": 1,
+            "static_root": "genesis",
+            "plain": "[{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}]"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "f1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "f2"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "informative": {
+              "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e",
+              "length": 202
+            }
+          },
+          {
+            "informative": {
+              "packet_sha256": "489c4fc7bc02d4eb8c039b5df92ec265f21eb00255e90a44f938fef05d9f183a",
+              "length": 201
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "handled_by": "receiver",
+            "result": "fatal",
+            "reason": "alignment"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-03-alternative",
+      "kind": "fold",
+      "title": "Expectation of a reassembling receiver: root over both parts",
+      "draft_refs": [
+        "Section 10, lines 610-622",
+        "Section 4, lines 273-276"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 3,
+        "place_title": "Splitting a window across several SYNCs",
+        "section_lines": "10 lines 610-622 against 6.3 lines 469-482 and 6.1 lines 413-414",
+        "variant": "alternative"
+      },
+      "note": "A receiver that first reassembles both parts would acknowledge this root; the text names no end marker, and the implementation that produced these vectors does not reassemble.",
+      "input": {
+        "blocks": [
+          {
+            "content_hash": "c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e",
+            "role": "user",
+            "seq": 0,
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "content_hash": "506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577",
+            "role": "user",
+            "seq": 1,
+            "summary": "Zusammenfassung A 1"
+          }
+        ]
+      },
+      "expected": {
+        "count": 2,
+        "canonical": [
+          "{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}",
+          "{\"content_hash\":\"506efe0fdd72645f63fa71f0323df477ba8c452e6d6fa3e83ca3362a313e5577\",\"role\":\"user\",\"seq\":1,\"summary\":\"Zusammenfassung A 1\"}"
+        ],
+        "canonical_sha256": [
+          "7f04f2735aa201b5604f80f7dc71b000a56e1cbfb02d3a59d99a7b06cae19104",
+          "7682eb2cc0f06f812c6cb6077e4e26f8bab4be43b6d57b5676961845a92031ec"
+        ],
+        "roots": [
+          "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+          "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+          "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+        ],
+        "root": "5e3ac01a76aa3b20d8e71137d4ec257fa4ce8a72e3773b79d3eff8ccbdf1e0fe"
+      }
+    },
+    {
+      "id": "place-35-chosen",
+      "kind": "scenario",
+      "title": "Add seq 4294967295",
+      "draft_refs": [
+        "Section 6.6, lines 529-532"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 35,
+        "place_title": "\"approaching 2^32\"",
+        "section_lines": "6.6 lines 529-532",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {
+            "start_seq": 4294967295
+          }
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 4294967295",
+            "summary": "Zusammenfassung A 4294967295"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 4294967295
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-35-alternative",
+      "kind": "scenario",
+      "title": "Add seq 4294967295",
+      "draft_refs": [
+        "Section 6.6, lines 529-532"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 35,
+        "place_title": "\"approaching 2^32\"",
+        "section_lines": "6.6 lines 529-532",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "last_usable_seq": 4294967294
+      },
+      "input": {
+        "participants": {
+          "A": {
+            "start_seq": 4294967295
+          }
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 4294967295",
+            "summary": "Zusammenfassung A 4294967295"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "error": "seq_exhausted"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-04-chosen",
+      "kind": "scenario",
+      "title": "First SYNC of an old session replayed into a new session: accepted (fixed genesis root)",
+      "draft_refs": [
+        "Section 11, lines 648-652",
+        "Section 4, lines 262-267"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 4,
+        "place_title": "\"fresh genesis root\" against a fixed root_0",
+        "section_lines": "6.6 lines 531-532; 11 lines 650-654 against 4 lines 262-267",
+        "variant": "chosen"
+      },
+      "note": "A session-specific \"fresh genesis root\" would make this SYNC fail the alignment check (fatal); the text defines no such root. Not executed.",
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          },
+          {
+            "op": "new_session",
+            "who": "B"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "ok": true
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-36-chosen",
+      "kind": "scenario",
+      "title": "SYNC to A whose block carries A's role \"user\": direction follows from the channel, accepted",
+      "draft_refs": [
+        "Section 7, lines 536-546"
+      ],
+      "valid_input": true,
+      "reading": {
+        "place": 36,
+        "place_title": "Direction from \"role indicator\" or channel",
+        "section_lines": "7 lines 543-545; 3.1 lines 217-219",
+        "variant": "chosen"
+      },
+      "note": "A reader who derives the direction from the role field would assign the block to the chain from A to B; the text leaves the consequence open. Not executed.",
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "B",
+            "role": "user",
+            "raw_text": "Rohtext B 0",
+            "summary": "Zusammenfassung B 0"
+          },
+          {
+            "op": "send",
+            "who": "B",
+            "as": "p"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "p"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"6d5a3cd8728698fce800e97938f380eddbb69b4d7400c3a0692856c06112ef23\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung B 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "8cf9d4514faa8872ab50fd03f43694aadb5588bcb2f3c36c42b1d04c978762bf",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 129,
+                "combined_hash": "92bd615deed0e1e2ef532720887b525d8888bbd2d3859ebe5f51cd5f511122d6",
+                "packet_sha256": "0b18e632714c3ecc0a1e92507854aa5ce9f2f03a2b6d1afa14a627ad79fc9fa5"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "277f9b1857f470b85f7abdde486585a7a59c4f8761a794b61d07ab6f24663342"
+            },
+            "ack_hex": "014100000000277f9b1857f470b85f7abdde486585a7a59c4f8761a794b61d07ab6f24663342"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-37-chosen",
+      "kind": "scenario",
+      "title": "Turn-token: B holds the token after the ACK but has nothing to send",
+      "draft_refs": [
+        "Section 7, lines 548-552"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 37,
+        "place_title": "Turn-token: start, hand-over, counter",
+        "section_lines": "7 lines 548-552; 6.1 lines 381-383",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {
+            "strategy": "turn_token",
+            "token": true
+          },
+          "B": {
+            "strategy": "turn_token",
+            "token": false
+          }
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          },
+          {
+            "op": "send",
+            "who": "B",
+            "as": "e"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "e",
+            "as": "ae"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "ae"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "handled_by": "sender",
+            "result": "accepted"
+          },
+          {
+            "error": "nothing_pending"
+          },
+          {
+            "result": "no_packet"
+          },
+          {
+            "result": "no_packet"
+          },
+          {
+            "error": "no_token"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-37-alternative",
+      "kind": "scenario",
+      "title": "Turn-token: B holds the token after the ACK but has nothing to send",
+      "draft_refs": [
+        "Section 7, lines 548-552"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 37,
+        "place_title": "Turn-token: start, hand-over, counter",
+        "section_lines": "7 lines 548-552; 6.1 lines 381-383",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "allow_empty_sync": true
+      },
+      "input": {
+        "participants": {
+          "A": {
+            "strategy": "turn_token",
+            "token": true
+          },
+          "B": {
+            "strategy": "turn_token",
+            "token": false
+          }
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1",
+            "as": "a1"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "a1"
+          },
+          {
+            "op": "send",
+            "who": "B",
+            "as": "e"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "e",
+            "as": "ae"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "ae"
+          },
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 1",
+            "summary": "Zusammenfassung A 1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "handled_by": "sender",
+            "result": "accepted"
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "dynamic_plain": "[]",
+              "dynamic_plain_length": 2,
+              "dynamic_plain_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 10,
+                "combined_hash": "799e7122c0b93849761f7c65b5a962a21534972f08f5c2f2d4a38abcf63978e9",
+                "packet_sha256": "5ade46651db4249c750f71690d1dbd8d6bbf1c37b8b5ad23ecf0d945cd262eee"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000010d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "handled_by": "sender",
+            "result": "accepted"
+          },
+          {
+            "seq": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-05-chosen",
+      "kind": "scenario",
+      "title": "Turn-token: the ACK to A is lost, B already sends over the new root with the token; A rejects as fatal",
+      "draft_refs": [
+        "Section 7, lines 548-552",
+        "Section 6.5, lines 514-516",
+        "Section 6.3, lines 469-472"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 5,
+        "place_title": "Turn-token and a lost ACK",
+        "section_lines": "7 lines 548-552 against 6.5 lines 514-516",
+        "variant": "chosen"
+      },
+      "note": "A reader who treats a peer SYNC over the expected new root as an implicit ACK would continue the session; the text does not provide that, but 6.5 forbids re-establishment because of one lost ACK. Not executed.",
+      "input": {
+        "participants": {
+          "A": {
+            "strategy": "turn_token",
+            "token": true
+          },
+          "B": {
+            "strategy": "turn_token",
+            "token": false
+          }
+        },
+        "steps": [
+          {
+            "op": "add",
+            "who": "A",
+            "role": "user",
+            "raw_text": "Rohtext A 0",
+            "summary": "Zusammenfassung A 0"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          },
+          {
+            "op": "add",
+            "who": "B",
+            "role": "agent",
+            "raw_text": "Rohtext B 1",
+            "summary": "Zusammenfassung B 1"
+          },
+          {
+            "op": "send",
+            "who": "B",
+            "as": "p2"
+          },
+          {
+            "op": "recv",
+            "who": "A",
+            "packet": "p2"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "seq": 0
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 0,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain": "[{\"content_hash\":\"c7b5ef9be0181ef80d4a54046102d01529e41f3097277fcd6ba7c4c48c65559e\",\"role\":\"user\",\"seq\":0,\"summary\":\"Zusammenfassung A 0\"}]",
+              "dynamic_plain_length": 139,
+              "dynamic_plain_sha256": "202a8ef7e1ee705e3a82ff1fb5dc6ca027aff0cc2a7f169afe2ee458d6b31b34",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 128,
+                "combined_hash": "fce430183d9f38bf5c0bd10158dc41054b37fc516da2da2260664738d9999815",
+                "packet_sha256": "0548d40b64d4794043913e305de1529fd7366d6707fc38528e180de5cd00b10e"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 0,
+              "new_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+            },
+            "ack_hex": "0141000000000d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97"
+          },
+          {
+            "seq": 1
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1,
+              "static_root": "0d91c377f68d33f741875f91eb3c7ba5e31369f82c42ef68ba4f425c6572ef97",
+              "dynamic_plain": "[{\"content_hash\":\"7f153e223ad43e5d8dcf3dd4193f4f5995269aab4f239efc80943fa40a621d07\",\"role\":\"agent\",\"seq\":1,\"summary\":\"Zusammenfassung B 1\"}]",
+              "dynamic_plain_length": 140,
+              "dynamic_plain_sha256": "1ddf664349c0987cd04c8227d81c87ac3b4d8b411c93f700974e9c1beaf267cf",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 129,
+                "combined_hash": "521d0e8ea212c49620306f39661199b553222f7c9aafa9c244786a340eaffa3d",
+                "packet_sha256": "f7b8254c95e3d0175fd86bc4e63671e7f0ebf3a788fb56965efb0beeaf156f66"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "fatal",
+            "reason": "alignment"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-38-alternative",
+      "kind": "summary",
+      "title": "content_hash in uppercase, case-insensitive comparison: not canonical under -01, no match",
+      "draft_refs": [
+        "Section 3.1, lines 229-230",
+        "Section 8, lines 567-571",
+        "draft-ruvalcaba-hctp-01 Section 3.1, lines 317-319"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 38,
+        "place_title": "Checking the raw text",
+        "section_lines": "8 lines 567-571; 3.1 lines 229-230",
+        "variant": "nonconforming"
+      },
+      "input": {
+        "block": {
+          "content_hash": "71EEA649B3249B034472ADA67ADABF9747F4DD5EB9A4B29EE18B0F1B9D16BCF8",
+          "role": "user",
+          "seq": 0,
+          "summary": "s"
+        },
+        "raw_text": "Wie spät ist es?",
+        "case_insensitive": true
+      },
+      "expected": {
+        "raw_text_check": "mismatch",
+        "status": "raw_text_mismatch",
+        "computed": "71eea649b3249b034472ada67adabf9747f4dd5eb9a4b29ee18b0f1b9d16bcf8"
+      }
+    },
+    {
+      "id": "place-27-chosen",
+      "kind": "scenario",
+      "title": "1024 blocks in one SYNC",
+      "draft_refs": [
+        "Section 11, lines 656-661"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 27,
+        "place_title": "Values of the limits in Section 11",
+        "section_lines": "11 lines 656-661; 6.3 lines 474-475",
+        "variant": "chosen"
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add_many",
+            "who": "A",
+            "count": 1024,
+            "role": "user",
+            "summary_template": "Block {i}",
+            "raw_text_template": "Rohtext {i}"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "last_seq": 1023
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1023,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain_length": 132949,
+              "dynamic_plain_sha256": "7e1976016f6f66fd2865ed71a5c1e92bd37f97ea6b79a43491e74466c2b3edac",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 48087,
+                "combined_hash": "d048dc79c81ab701c95eaa651bea58cc9d8f73841ced7a31b79f4862c62d372b",
+                "packet_sha256": "96942cd8be5f91009e547a31aebabba3afdf664df80f9b439023784abc108ae7"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "ack",
+            "ack": {
+              "type": "ack",
+              "seq": 1023,
+              "new_root": "755e949d1e330ec490f6bdb3ab538ee6c68551abbe5b0549a0cb67e8f597d390"
+            },
+            "ack_hex": "0141000003ff755e949d1e330ec490f6bdb3ab538ee6c68551abbe5b0549a0cb67e8f597d390"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place-27-alternative",
+      "kind": "scenario",
+      "title": "1024 blocks in one SYNC",
+      "draft_refs": [
+        "Section 11, lines 656-661"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 27,
+        "place_title": "Values of the limits in Section 11",
+        "section_lines": "11 lines 656-661; 6.3 lines 474-475",
+        "variant": "alternative"
+      },
+      "reading_switches": {
+        "max_blocks": 1023
+      },
+      "input": {
+        "participants": {
+          "A": {},
+          "B": {}
+        },
+        "steps": [
+          {
+            "op": "add_many",
+            "who": "A",
+            "count": 1024,
+            "role": "user",
+            "summary_template": "Block {i}",
+            "raw_text_template": "Rohtext {i}"
+          },
+          {
+            "op": "send",
+            "who": "A",
+            "as": "p1"
+          },
+          {
+            "op": "recv",
+            "who": "B",
+            "packet": "p1"
+          }
+        ]
+      },
+      "expected": {
+        "steps": [
+          {
+            "last_seq": 1023
+          },
+          {
+            "packet": {
+              "type": "sync",
+              "seq": 1023,
+              "static_root": "adf23ff0aaf06a7edceac586462522c16ba7869f5c122515032bb7f8a8181db9",
+              "dynamic_plain_length": 132949,
+              "dynamic_plain_sha256": "7e1976016f6f66fd2865ed71a5c1e92bd37f97ea6b79a43491e74466c2b3edac",
+              "integrity_ok": true,
+              "informative": {
+                "dynamic_len": 48087,
+                "combined_hash": "d048dc79c81ab701c95eaa651bea58cc9d8f73841ced7a31b79f4862c62d372b",
+                "packet_sha256": "96942cd8be5f91009e547a31aebabba3afdf664df80f9b439023784abc108ae7"
+              }
+            }
+          },
+          {
+            "handled_by": "receiver",
+            "result": "rejected",
+            "reason": "too_many_blocks"
+          }
+        ]
+      }
+    }
+  ]
+}

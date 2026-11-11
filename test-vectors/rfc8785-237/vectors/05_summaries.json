@@ -1,0 +1,308 @@
+{
+  "file": "05_summaries",
+  "description": "Verifiable summaries (Section 8)",
+  "cases": [
+    {
+      "id": "summary-01",
+      "kind": "summary",
+      "title": "Raw text matches; without an agreed method the summary stays unverified",
+      "draft_refs": [
+        "Section 8, lines 567-571",
+        "Section 8, lines 584-585",
+        "Section 3.1, lines 229-230"
+      ],
+      "valid_input": true,
+      "input": {
+        "block": {
+          "content_hash": "71eea649b3249b034472ada67adabf9747f4dd5eb9a4b29ee18b0f1b9d16bcf8",
+          "role": "user",
+          "seq": 0,
+          "summary": "Frage nach der Uhrzeit"
+        },
+        "raw_text": "Wie spät ist es?"
+      },
+      "expected": {
+        "raw_text_check": "match",
+        "status": "unverified",
+        "computed": "71eea649b3249b034472ada67adabf9747f4dd5eb9a4b29ee18b0f1b9d16bcf8"
+      }
+    },
+    {
+      "id": "summary-02",
+      "kind": "summary",
+      "title": "Raw text differs by one byte",
+      "draft_refs": [
+        "Section 8, lines 567-571"
+      ],
+      "valid_input": false,
+      "input": {
+        "block": {
+          "content_hash": "71eea649b3249b034472ada67adabf9747f4dd5eb9a4b29ee18b0f1b9d16bcf8",
+          "role": "user",
+          "seq": 0,
+          "summary": "Frage nach der Uhrzeit"
+        },
+        "raw_text": "Wie spät ist es!"
+      },
+      "expected": {
+        "raw_text_check": "mismatch",
+        "status": "raw_text_mismatch",
+        "computed": "7241ea127b0592e27030388ec636badbb2c3cde1ab0a70b04713fb0237c14679"
+      }
+    },
+    {
+      "id": "summary-03",
+      "kind": "summary",
+      "title": "No raw text: unverified",
+      "draft_refs": [
+        "Section 8, lines 567-571",
+        "Section 8, lines 584-585"
+      ],
+      "valid_input": true,
+      "input": {
+        "block": {
+          "content_hash": "71eea649b3249b034472ada67adabf9747f4dd5eb9a4b29ee18b0f1b9d16bcf8",
+          "role": "user",
+          "seq": 0,
+          "summary": "Frage nach der Uhrzeit"
+        }
+      },
+      "expected": {
+        "raw_text_check": "no_raw_text",
+        "status": "unverified",
+        "computed": null
+      }
+    },
+    {
+      "id": "summary-04",
+      "kind": "summary",
+      "title": "Agreed test method reproduces the summary",
+      "draft_refs": [
+        "Section 8, lines 573-579"
+      ],
+      "valid_input": true,
+      "input": {
+        "block": {
+          "content_hash": "e236337edb1546b85029b4e53b44d44be98eb8c7371d88d1666cf5d6c0dd470b",
+          "role": "user",
+          "seq": 0,
+          "summary": "Bitte den Bericht bis Freitag senden."
+        },
+        "raw_text": "  Bitte   den Bericht\nbis Freitag senden. ",
+        "method": "test-whitespace-120/1"
+      },
+      "expected": {
+        "raw_text_check": "match",
+        "status": "reproduced",
+        "computed": "e236337edb1546b85029b4e53b44d44be98eb8c7371d88d1666cf5d6c0dd470b"
+      }
+    },
+    {
+      "id": "summary-05",
+      "kind": "summary",
+      "title": "Different, but equivalent under the test predicate",
+      "draft_refs": [
+        "Section 8, lines 580-583"
+      ],
+      "valid_input": true,
+      "input": {
+        "block": {
+          "content_hash": "e236337edb1546b85029b4e53b44d44be98eb8c7371d88d1666cf5d6c0dd470b",
+          "role": "user",
+          "seq": 0,
+          "summary": "bitte den bericht bis freitag senden."
+        },
+        "raw_text": "  Bitte   den Bericht\nbis Freitag senden. ",
+        "method": "test-whitespace-120/1",
+        "equivalence": "test"
+      },
+      "expected": {
+        "raw_text_check": "match",
+        "status": "equivalent",
+        "computed": "e236337edb1546b85029b4e53b44d44be98eb8c7371d88d1666cf5d6c0dd470b"
+      }
+    },
+    {
+      "id": "summary-06",
+      "kind": "summary",
+      "title": "Different, without a predicate",
+      "draft_refs": [
+        "Section 8, lines 573-579",
+        "Section 8, lines 584-585"
+      ],
+      "valid_input": false,
+      "input": {
+        "block": {
+          "content_hash": "e236337edb1546b85029b4e53b44d44be98eb8c7371d88d1666cf5d6c0dd470b",
+          "role": "user",
+          "seq": 0,
+          "summary": "bitte den bericht bis freitag senden."
+        },
+        "raw_text": "  Bitte   den Bericht\nbis Freitag senden. ",
+        "method": "test-whitespace-120/1"
+      },
+      "expected": {
+        "raw_text_check": "match",
+        "status": "differs",
+        "computed": "e236337edb1546b85029b4e53b44d44be98eb8c7371d88d1666cf5d6c0dd470b"
+      }
+    },
+    {
+      "id": "summary-07",
+      "kind": "summary",
+      "title": "Raw text is not UTF-8",
+      "draft_refs": [
+        "Section 3.1, lines 229-230",
+        "Section 8, lines 567-571"
+      ],
+      "valid_input": false,
+      "input": {
+        "block": {
+          "content_hash": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89",
+          "role": "user",
+          "seq": 0,
+          "summary": "s"
+        },
+        "raw_text_hex": "ff"
+      },
+      "expected": {
+        "raw_text_check": "not_utf8",
+        "status": "raw_text_mismatch",
+        "computed": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+      }
+    },
+    {
+      "id": "summary-08",
+      "kind": "summary",
+      "title": "Raw text in NFD instead of NFC: no normalization, mismatch",
+      "draft_refs": [
+        "Section 3.1, lines 229-230",
+        "Section 8, lines 567-571"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 38,
+        "place_title": "Checking the raw text",
+        "section_lines": "8 lines 567-571; 3.1 lines 229-230",
+        "variant": "chosen"
+      },
+      "input": {
+        "block": {
+          "content_hash": "850f7dc43910ff890f8879c0ed26fe697c93a067ad93a7d50f466a7028a9bf4e",
+          "role": "user",
+          "seq": 0,
+          "summary": "s"
+        },
+        "raw_text": "café"
+      },
+      "expected": {
+        "raw_text_check": "mismatch",
+        "status": "raw_text_mismatch",
+        "computed": "81ef060bcd98adc7824eb5c1ada83c32491b16018e11e79f00ab9d09e04b015a"
+      }
+    },
+    {
+      "id": "summary-09",
+      "kind": "summary",
+      "title": "Raw text with CRLF instead of LF: mismatch",
+      "draft_refs": [
+        "Section 3.1, lines 229-230",
+        "Section 8, lines 567-571"
+      ],
+      "valid_input": false,
+      "input": {
+        "block": {
+          "content_hash": "7e18f737311b2dc3b2f269dd78396b0351f14fb66efa879f768cb23181883c78",
+          "role": "user",
+          "seq": 0,
+          "summary": "s"
+        },
+        "raw_text": "a\r\nb"
+      },
+      "expected": {
+        "raw_text_check": "mismatch",
+        "status": "raw_text_mismatch",
+        "computed": "18745f36a05e29072709042d6062ce54f1b08ff36c27ba80c39f81fb010c8ce2"
+      }
+    },
+    {
+      "id": "summary-10",
+      "kind": "summary",
+      "title": "Different and not equivalent under the test predicate either",
+      "draft_refs": [
+        "Section 8, lines 580-583",
+        "Section 8, lines 584-585"
+      ],
+      "valid_input": false,
+      "input": {
+        "block": {
+          "content_hash": "e236337edb1546b85029b4e53b44d44be98eb8c7371d88d1666cf5d6c0dd470b",
+          "role": "user",
+          "seq": 0,
+          "summary": "ganz andere Kurzfassung"
+        },
+        "raw_text": "  Bitte   den Bericht\nbis Freitag senden. ",
+        "method": "test-whitespace-120/1",
+        "equivalence": "test"
+      },
+      "expected": {
+        "raw_text_check": "match",
+        "status": "differs",
+        "computed": "e236337edb1546b85029b4e53b44d44be98eb8c7371d88d1666cf5d6c0dd470b"
+      }
+    },
+    {
+      "id": "summary-11",
+      "kind": "summary",
+      "title": "content_hash in uppercase, exact comparison",
+      "draft_refs": [
+        "Section 3.1, lines 229-230",
+        "Section 8, lines 567-571"
+      ],
+      "valid_input": false,
+      "reading": {
+        "place": 38,
+        "place_title": "Checking the raw text",
+        "section_lines": "8 lines 567-571; 3.1 lines 229-230",
+        "variant": "chosen"
+      },
+      "input": {
+        "block": {
+          "content_hash": "71EEA649B3249B034472ADA67ADABF9747F4DD5EB9A4B29EE18B0F1B9D16BCF8",
+          "role": "user",
+          "seq": 0,
+          "summary": "Frage nach der Uhrzeit"
+        },
+        "raw_text": "Wie spät ist es?"
+      },
+      "expected": {
+        "raw_text_check": "mismatch",
+        "status": "raw_text_mismatch",
+        "computed": "71eea649b3249b034472ada67adabf9747f4dd5eb9a4b29ee18b0f1b9d16bcf8"
+      }
+    },
+    {
+      "id": "summary-12",
+      "kind": "summary",
+      "title": "Empty raw text: SHA-256 of the empty input",
+      "draft_refs": [
+        "Section 3.1, lines 229-230"
+      ],
+      "valid_input": true,
+      "input": {
+        "block": {
+          "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "role": "user",
+          "seq": 0,
+          "summary": ""
+        },
+        "raw_text": ""
+      },
+      "expected": {
+        "raw_text_check": "match",
+        "status": "unverified",
+        "computed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ]
+}

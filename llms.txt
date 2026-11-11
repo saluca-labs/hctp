@@ -1,6 +1,6 @@
 # hctp
 
-> The Hash-Chain Context Transfer Protocol (HCTP) Internet-Draft, draft-ruvalcaba-hctp-00, with test vectors computed from its text and the scripts that generate and check them. Code and vectors are Apache-2.0; HCTP is royalty-free to implement under IETF IPR disclosure 7533.
+> The Hash-Chain Context Transfer Protocol (HCTP) Internet-Draft, draft-ruvalcaba-hctp-00, with test vectors computed from its text and the scripts that generate and check them. Code and vectors are Apache-2.0, except test-vectors/rfc8785-237/, which is MIT; HCTP is royalty-free to implement under IETF IPR disclosure 7533.
 
 This is a specification and test-vector repository, not a library: the Python reference implementation lives in saluca-labs/velamen. The generator uses only the Python standard library and imports no HCTP code. The -00 text does not fix how non-ASCII characters are escaped in canonical JSON, so the non-ASCII vector is given under both readings.
 
